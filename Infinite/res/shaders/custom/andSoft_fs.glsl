@@ -1,17 +1,3 @@
-#version 430 core
-
-uniform vec2 iResolution;
-uniform float iTime;
-uniform vec4 iDate;
-
-in vec2 fragCoord;
-
-out vec4 fragColor;
-
-// SHTOY128 - image (ZX-Spectrum's loader simulator)
-// Created by Dmitry Andreev - and'2015
-// License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
-
 #define REFRESH_RATE_HZ (60.0)
 #define SHOW_DEBUG_GRID (0)
 #define DO_POSTPROCESS  (1)
@@ -187,7 +173,7 @@ vec2 noise(float t)
 	return hash22(vec2(t, t * 1.423)) * 2.0 - 1.0;
 }
 
-void main()
+void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
 	float t = iTime;
 	t = mod(t, 90.0);

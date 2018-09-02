@@ -18,8 +18,7 @@ CShader::~CShader()
 void CShader::addShader(const std::string& vShaderName, EShaderType vShaderType)
 {
 	_ASSERT(!vShaderName.empty());
-	const GLchar* pShaderText = __readShaderFile(vShaderName);
-	_ASSERT(pShaderText);
+	std::string ShaderText = __readShaderFile(vShaderName);
 
 	GLuint ShaderID = 0;
 	switch (vShaderType)
@@ -40,6 +39,7 @@ void CShader::addShader(const std::string& vShaderName, EShaderType vShaderType)
 		break;
 	}
 
+	const GLchar* pShaderText = ShaderText.c_str();
 	glShaderSource(ShaderID, 1, &pShaderText, nullptr);
 	__compileShader(ShaderID);
 
@@ -47,8 +47,47 @@ void CShader::addShader(const std::string& vShaderName, EShaderType vShaderType)
 	__linkProgram(m_ProgramID);
 
 	_ASSERT(glGetError() == GL_NO_ERROR);
+}
 
-	delete pShaderText;
+//*********************************************************************************
+//FUNCTION:
+void CShader::addShader(const std::vector<std::string>& vShaderNameSet, EShaderType vShaderType)
+{
+	_ASSERT(!vShaderNameSet.empty());
+	std::string ShaderText = "";
+	for (auto ShaderName : vShaderNameSet)
+	{
+		_ASSERT(!ShaderName.empty());
+		ShaderText += __readShaderFile(ShaderName) + "\r\n";
+	}
+
+	GLuint ShaderID = 0;
+	switch (vShaderType)
+	{
+	case VERTEX_SHADER:
+		ShaderID = glCreateShader(GL_VERTEX_SHADER);
+		break;
+	case FRAGMENT_SHADER:
+		ShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+		break;
+	case GEOMETRY_SHADER:
+		ShaderID = glCreateShader(GL_GEOMETRY_SHADER);
+		break;
+	case COMPUTE_SHADER:
+		ShaderID = glCreateShader(GL_COMPUTE_SHADER);
+		break;
+	default:
+		break;
+	}
+
+	const GLchar* pShaderText = ShaderText.c_str();
+	glShaderSource(ShaderID, 1, &pShaderText, nullptr);
+	__compileShader(ShaderID);
+
+	glAttachShader(m_ProgramID, ShaderID);
+	__linkProgram(m_ProgramID);
+
+	_ASSERT(glGetError() == GL_NO_ERROR);
 }
 
 //*********************************************************************************
@@ -142,7 +181,7 @@ void CShader::setIntUniformValue(const char *name, GLint v0, GLint v1, GLint v2,
 
 //*********************************************************************************
 //FUNCTION:
-const GLchar* const CShader::__readShaderFile(const std::string& vFileName)
+std::string CShader::__readShaderFile(const std::string& vFileName)
 {
 	_ASSERT(vFileName.size() != 0);
 	GLchar* pShaderText = nullptr;
@@ -167,7 +206,10 @@ const GLchar* const CShader::__readShaderFile(const std::string& vFileName)
 	pShaderText[FileSize] = '\0';
 	FileIn.close();
 
-	return pShaderText;
+	std::string ShaderText = pShaderText;
+	delete[] pShaderText;
+
+	return ShaderText;
 }
 
 //*********************************************************************************

@@ -58,7 +58,6 @@ void CGameRenderer::_updateV()
 	bool IsIntersected = __detectCollision();
 	//static int i = 0;
 	//if (IsIntersected) std::cout << "intersect:" << ++i << std::endl;
-
 }
 
 //*********************************************************************************

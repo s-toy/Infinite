@@ -20,6 +20,7 @@ public:
 	~CShader();
 
 	void addShader(const std::string& vShaderName, EShaderType vShaderType);
+	void addShader(const std::vector<std::string>& vShaderNameSet, EShaderType vShaderType);
 	void enableShader() const {glUseProgram(m_ProgramID);}
 	void disableShader() const {glUseProgram(0);}
 	unsigned int getProgramID() const { return m_ProgramID;}
@@ -39,7 +40,7 @@ public:
 	void setIntUniformValue(const char *name, GLint v0, GLint v1, GLint v2, GLint v3);
 
 private:
-	const GLchar* const __readShaderFile(const std::string& vFileName);
+	std::string __readShaderFile(const std::string& vFileName);
 	void __compileShader(GLuint& vShader);
 	void __linkProgram(GLuint& vProgram);
 	void __printUniformWarningInfo(const std::string& vUniform);

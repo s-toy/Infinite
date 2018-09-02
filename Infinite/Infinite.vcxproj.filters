@@ -16,6 +16,15 @@
     <Filter Include="Source Files\Common">
       <UniqueIdentifier>{0abcafc4-f15b-42de-925f-5b23b7ca6a16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader Files\custom">
+      <UniqueIdentifier>{226d6baa-6d06-4464-8ae6-3830efaa66b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader Files\core">
+      <UniqueIdentifier>{f81ad23e-4899-48f7-8f7f-60ba4518e763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{65e37aeb-658b-4fc4-8f1a-edb7adfc2c9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -55,7 +64,7 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\mathUtil.cpp">
-      <Filter>Source Files\Common</Filter>
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,21 +108,33 @@
       <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="src\mathUtil.h">
-      <Filter>Source Files\Common</Filter>
+      <Filter>Source Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\renderBarrage_fs.glsl">
-      <Filter>Shader Files</Filter>
+    <None Include="res\shaders\core\drawQuad_vs.glsl">
+      <Filter>Shader Files\core</Filter>
     </None>
-    <None Include="res\shaders\textureCopy_fs.glsl">
-      <Filter>Shader Files</Filter>
+    <None Include="res\shaders\core\mainImage_fs.glsl">
+      <Filter>Shader Files\core</Filter>
     </None>
-    <None Include="res\shaders\drawQuad_vs.glsl">
-      <Filter>Shader Files</Filter>
+    <None Include="res\shaders\core\renderPlayer_fs.glsl">
+      <Filter>Shader Files\core</Filter>
     </None>
-    <None Include="res\shaders\renderPlayer_fs.glsl">
-      <Filter>Shader Files</Filter>
+    <None Include="res\shaders\custom\andSoft_fs.glsl">
+      <Filter>Shader Files\custom</Filter>
+    </None>
+    <None Include="res\shaders\custom\colorfulHeart_fs.glsl">
+      <Filter>Shader Files\custom</Filter>
+    </None>
+    <None Include="res\shaders\custom\contrastSpeedIllusion_fs.glsl">
+      <Filter>Shader Files\custom</Filter>
+    </None>
+    <None Include="res\shaders\core\textureCopy_fs.glsl">
+      <Filter>Shader Files\core</Filter>
+    </None>
+    <None Include="res\shaders\custom\sky_fs.glsl">
+      <Filter>Shader Files\custom</Filter>
     </None>
   </ItemGroup>
 </Project>

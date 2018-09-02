@@ -50,16 +50,19 @@
     <ClInclude Include="src\textureUtil.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\drawQuad_vs.glsl" />
-    <None Include="res\shaders\renderPlayer_fs.glsl" />
-    <None Include="res\shaders\renderBarrage_fs.glsl" />
-    <None Include="res\shaders\textureCopy_fs.glsl" />
+    <None Include="res\shaders\core\drawQuad_vs.glsl" />
+    <None Include="res\shaders\core\mainImage_fs.glsl" />
+    <None Include="res\shaders\core\renderPlayer_fs.glsl" />
+    <None Include="res\shaders\core\textureCopy_fs.glsl" />
+    <None Include="res\shaders\custom\andSoft_fs.glsl" />
+    <None Include="res\shaders\custom\colorfulHeart_fs.glsl" />
+    <None Include="res\shaders\custom\contrastSpeedIllusion_fs.glsl" />
+    <None Include="res\shaders\custom\sky_fs.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F46EF3BB-3476-4E0F-9B1F-7FFE095CD45C}</ProjectGuid>
     <RootNamespace>Infinite</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

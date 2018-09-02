@@ -1,6 +1,7 @@
 #version 430 core
 
 uniform vec2 iResolution;
+uniform float iRadius;
 
 in vec2 fragCoord;
 
@@ -15,7 +16,7 @@ vec4 circle(vec2 fragCoord, vec2 centerPos, float radius, vec3 color)
 
 void main()
 {    
-    vec4 circleCol = circle(fragCoord, 0.5 * iResolution.xy, 0.4 * iResolution.y, vec3(1.0, 1.0, 1.0));
+    vec4 circleCol = circle(fragCoord, 0.5 * iResolution.xy, iRadius, vec3(1.0, 1.0, 1.0));
     fragColor = circleCol;
     
 	if (fragColor.a < 0.01) discard;

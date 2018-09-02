@@ -1,5 +1,6 @@
 #include "gameRenderer.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 #include "gameShadingTechnique.h"
 #include "meshRenderer.h"
 #include "textureUtil.h"
@@ -12,6 +13,8 @@ using namespace Constant;
 namespace
 {
 	bool g_Keys[1024];
+	const int CIRCLE_SAMPLE_COUNT = 64;
+	const float INTERSECT_THRESHOLD = 0.2f;
 }
 
 CGameRenderer::CGameRenderer() : m_pShadingTechnique(nullptr), m_pQuadRenderer(nullptr), m_pPlayer(nullptr)
@@ -33,6 +36,7 @@ void CGameRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int
 	__initBuffers();
 	__initRenderers();
 	__initPlayer();
+	__buildCircleSampleOffsets();
 
 	m_StartTime = clock();
 	m_BarrageTex = util::setupTexture(vWindowWidth, vWindowHeight, GL_RGBA32F, GL_RGBA);
@@ -50,7 +54,11 @@ void CGameRenderer::_updateV()
 	__renderBarrage2Texture();
 	__drawBarrageQuad();
 	__drawPlayerQuad();
-	__detectCollision();
+
+	bool IsIntersected = __detectCollision();
+	//static int i = 0;
+	//if (IsIntersected) std::cout << "intersect:" << ++i << std::endl;
+
 }
 
 //*********************************************************************************
@@ -103,8 +111,8 @@ void CGameRenderer::__initRenderers()
 void CGameRenderer::__initPlayer()
 {
 	m_pPlayer = new CPlayer();
-	m_pPlayer->setPosition(glm::vec2(0.0f, -0.8f));
-	m_pPlayer->setSpeed(0.001f);
+	m_pPlayer->setPosition(glm::vec2(800.0f, 100.0f));
+	m_pPlayer->setSpeed(0.2f);
 }
 
 //*********************************************************************************
@@ -162,10 +170,13 @@ void CGameRenderer::__drawPlayerQuad()
 	m_pShadingTechnique->enableShader("RenderPlayerPass");
 
 	glm::mat4 ModelMatrix = glm::mat4(1.0f);
-	ModelMatrix = glm::translate(ModelMatrix, glm::vec3(m_pPlayer->position(), 0.0f));
-	ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.1f));
+	auto Pos = 2.0f * m_pPlayer->position() / glm::vec2(WIN_WIDTH, WIN_HEIGHT) - 1.0f;
+	ModelMatrix = glm::translate(ModelMatrix, glm::vec3(Pos, 0.0f));
+	float Scale = 0.1f;
+	ModelMatrix = glm::scale(ModelMatrix, glm::vec3(Scale));
 	m_pShadingTechnique->updateStandShaderUniform("uModelMatrix", ModelMatrix);
-	m_pShadingTechnique->updateStandShaderUniform("iResolution", 0.1f * glm::vec2(WIN_WIDTH, WIN_HEIGHT));
+	m_pShadingTechnique->updateStandShaderUniform("iResolution", Scale * glm::vec2(WIN_WIDTH, WIN_HEIGHT));
+	m_pShadingTechnique->updateStandShaderUniform("iRadius", (float)m_pPlayer->radius());
 
 	m_pQuadRenderer->draw();
 
@@ -174,11 +185,51 @@ void CGameRenderer::__drawPlayerQuad()
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__detectCollision()
+bool CGameRenderer::__detectCollision()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, WIN_WIDTH, WIN_HEIGHT);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_BarrageTex, 0);
+
 	auto Pos = m_pPlayer->position();
 	auto Radius = m_pPlayer->radius();
+	bool IsIntersected = false;
 
+	int W = 2 * Radius + 1;
+	float *pData = new float[4 * W * W];
+	glReadPixels(Pos.x - Radius, Pos.y - Radius, W, W, GL_RGBA, GL_FLOAT, pData);
+	for (auto Offset : m_CircleSampleOffsets)
+	{
+		int SamplePos = 4 * (Offset.y * W + Offset.x);
+		float *pRGBA = &pData[SamplePos];
+
+		float H = INTERSECT_THRESHOLD;
+		if (pRGBA[0] > H || pRGBA[1] > H || pRGBA[2] > H) { IsIntersected = true; break; }
+	}
+
+	SAFE_DELETE_ARRAY(pData);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+	return IsIntersected;
+}
+
+//*********************************************************************************
+//FUNCTION:
+void CGameRenderer::__buildCircleSampleOffsets()
+{
+	float Theta = 0.0f;
+	const float Delta = 2 * PI / CIRCLE_SAMPLE_COUNT;
+	for (float Theta = 0.0f; Theta < 2 * PI; Theta += Delta)
+	{
+		int R = m_pPlayer->radius();
+		int X = cos(Theta) * R + R;
+		int Y = sin(Theta) * R + R;
+
+		m_CircleSampleOffsets.emplace_back(glm::ivec2(X, Y));
+	}
 }
 
 //*********************************************************************************

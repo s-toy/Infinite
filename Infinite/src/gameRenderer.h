@@ -2,6 +2,7 @@
 
 #include <string>
 #include <ctime>
+#include <vector>
 #include <GLM/glm.hpp>
 #include "openglRenderer.h"
 
@@ -31,7 +32,8 @@ private:
 	void __renderBarrage2Texture();
 	void __drawBarrageQuad();
 	void __drawPlayerQuad();
-	void __detectCollision();
+	bool __detectCollision();
+	void __buildCircleSampleOffsets();
 
 	void __destory();
 
@@ -48,4 +50,5 @@ private:
 	GLuint m_CaptureFBO;
 	GLuint m_CaptureRBO;
 
+	std::vector<glm::ivec2> m_CircleSampleOffsets;
 };

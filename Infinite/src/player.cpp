@@ -3,7 +3,9 @@
 #include "common.h"
 #include "meshRenderer.h"
 
-CPlayer::CPlayer() : m_Position(0.0f), m_MoveSpeed(0.0f), m_Radius(0.01f)
+using namespace Constant;
+
+CPlayer::CPlayer() : m_Position(0.0f), m_MoveSpeed(0.0f), m_Radius(5)
 {
 
 }
@@ -17,8 +19,8 @@ CPlayer::~CPlayer()
 //FUNCTION:
 void CPlayer::moveUp()
 {
-	if (m_Position.y > 1.0f)
-		m_Position.y = 1.0f;
+	if (m_Position.y > WIN_HEIGHT)
+		m_Position.y = WIN_HEIGHT;
 	else
 		m_Position.y += m_MoveSpeed;
 }
@@ -27,8 +29,8 @@ void CPlayer::moveUp()
 //FUNCTION:
 void CPlayer::moveDown()
 {
-	if (m_Position.y < -1.0f)
-		m_Position.y = -1.0f;
+	if (m_Position.y < 0)
+		m_Position.y = 0;
 	else
 		m_Position.y -= m_MoveSpeed;
 }
@@ -37,8 +39,8 @@ void CPlayer::moveDown()
 //FUNCTION:
 void CPlayer::moveLeft()
 {
-	if (m_Position.x < -1.0f)
-		m_Position.x = -1.0f;
+	if (m_Position.x < 0)
+		m_Position.x = 0;
 	else
 		m_Position.x -= m_MoveSpeed;
 }
@@ -47,8 +49,8 @@ void CPlayer::moveLeft()
 //FUNCTION:
 void CPlayer::moveRight()
 {
-	if (m_Position.x > 1.0f)
-		m_Position.x = 1.0f;
+	if (m_Position.x > WIN_WIDTH)
+		m_Position.x = WIN_WIDTH;
 	else
 		m_Position.x += m_MoveSpeed;
 }

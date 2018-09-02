@@ -26,9 +26,6 @@ void COpenGLRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, i
 	glewExperimental = GL_TRUE;
 
 	glewInit();
-	glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 

@@ -2,11 +2,14 @@
 
 uniform sampler2D uTexture;
 
-in vec2 _TexCoords;
+uniform vec2 iResolution;
 
-layout(location = 0) out vec4 _outFragColor;
+in vec2 fragCoord;
+
+out vec4 fragColor;
 
 void main()
 {
-    _outFragColor = texture(uTexture, _TexCoords);
+	vec2 uv = fragCoord / iResolution;
+    fragColor = texture(uTexture, uv);
 }

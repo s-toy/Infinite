@@ -143,5 +143,11 @@
       <Filter>Shader Files\custom</Filter>
     </None>
     <None Include="gameConfig.json" />
+    <None Include="res\shaders\custom\tinyCloud_fs.glsl">
+      <Filter>Shader Files\custom</Filter>
+    </None>
+    <None Include="res\shaders\custom\displayPicture_fs.glsl">
+      <Filter>Shader Files\custom</Filter>
+    </None>
   </ItemGroup>
 </Project>

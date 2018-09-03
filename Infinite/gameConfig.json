@@ -11,8 +11,8 @@
   "fullScreen": false,
 
   "mainImageShader": "res/shaders/custom/andSoft_fs.glsl",
-  "iChannel0": "res/textures/01.jpg",
-  "iChannel1": "",
-  "iChannel2": "",
-  "iChannel3": ""
+  "iChannel0": "res/textures/00.jpg",
+  "iChannel1": "res/textures/01.jpg",
+  "iChannel2": "res/textures/02.jpg",
+  "iChannel3": "res/textures/03.jpg"
 }

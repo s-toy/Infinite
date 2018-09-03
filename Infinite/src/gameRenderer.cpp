@@ -40,6 +40,7 @@ void CGameRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int
 	__initRenderers();
 	__initPlayer();
 	__buildCircleSampleOffsets();
+	__initUniforms();
 
 	m_StartTime = clock();
 	m_MainImageTex = util::setupTexture(vWindowWidth, vWindowHeight, GL_RGBA32F, GL_RGBA);
@@ -133,6 +134,18 @@ void CGameRenderer::__initTextures()
 
 //*********************************************************************************
 //FUNCTION:
+void CGameRenderer::__initUniforms()
+{
+	m_pShadingTechnique->enableShader("mainImagePass");
+	for (int i = 0; i < 4; ++i) {
+		std::string UniformName = boost::str(boost::format("iChannel%1%") % i);
+		m_pShadingTechnique->updateStandShaderUniform(UniformName, i);
+	}
+	m_pShadingTechnique->disableShader();
+}
+
+//*********************************************************************************
+//FUNCTION:
 void CGameRenderer::__renderMainImage2Texture()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
@@ -148,6 +161,11 @@ void CGameRenderer::__renderMainImage2Texture()
 
 	m_pQuadRenderer->draw();
 	m_pShadingTechnique->disableShader();
+
+	for (int i = 0; i < 4; ++i) {
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
@@ -206,7 +224,7 @@ bool CGameRenderer::__detectCollision()
 	bool IsIntersected = false;
 
 	int W = 2 * Radius + 1;
-	float *pData = new float[4 * W * W];
+	auto pData = new float[4 * W * W];
 	glReadPixels(Pos.x - Radius, Pos.y - Radius, W, W, GL_RGBA, GL_FLOAT, pData);
 	for (auto Offset : m_CircleSampleOffsets)
 	{
@@ -251,8 +269,8 @@ void CGameRenderer::__updateShaderUniforms4MainImagePass()
 
 	for (int i = 0; i < 4; ++i) {
 		if (m_ChannelTextures[i] != 0) {
-			std::string UniformName = boost::str(boost::format("iChannel%1%") % i);
-			m_pShadingTechnique->updateStandShaderUniform(UniformName, m_ChannelTextures[i]);
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, m_ChannelTextures[i]);
 		}
 	}
 }

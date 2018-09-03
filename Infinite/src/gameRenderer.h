@@ -28,6 +28,7 @@ private:
 	void __initRenderers();
 	void __initPlayer();
 	void __initTextures();
+	void __initUniforms();
 
 	void __renderMainImage2Texture();
 	void __mainImagePass();

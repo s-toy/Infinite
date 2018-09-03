@@ -45,8 +45,6 @@ void CShader::addShader(const std::string& vShaderName, EShaderType vShaderType)
 
 	glAttachShader(m_ProgramID, ShaderID);
 	__linkProgram(m_ProgramID);
-
-	_ASSERT(glGetError() == GL_NO_ERROR);
 }
 
 //*********************************************************************************
@@ -86,8 +84,6 @@ void CShader::addShader(const std::vector<std::string>& vShaderNameSet, EShaderT
 
 	glAttachShader(m_ProgramID, ShaderID);
 	__linkProgram(m_ProgramID);
-
-	_ASSERT(glGetError() == GL_NO_ERROR);
 }
 
 //*********************************************************************************

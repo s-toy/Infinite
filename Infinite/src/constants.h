@@ -6,9 +6,7 @@
 
 namespace Constant
 {
-	static const std::string WIN_NAME = "Infinite";
-	static const int WIN_WIDTH = 1600;
-	static const int WIN_HEIGHT = 900;
+	static const std::string GAME_CONFIG_FILE_NAME = "gameConfig.json";
 
 	static const float PI = 3.1415926;
 

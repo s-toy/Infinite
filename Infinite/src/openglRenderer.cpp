@@ -12,7 +12,7 @@ COpenGLRenderer::~COpenGLRenderer()
 
 //*********************************************************************************
 //FUNCTION:
-void COpenGLRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int vWindowHeight)
+void COpenGLRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int vWindowHeight, int vWinPosX, int vWinPosY, bool vIsFullscreen)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -20,8 +20,10 @@ void COpenGLRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, i
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
-	m_pWindow = glfwCreateWindow(vWindowWidth, vWindowHeight, vWindowTitle.c_str(), nullptr, nullptr);
+	GLFWmonitor *pMonitor = vIsFullscreen ? glfwGetPrimaryMonitor() : nullptr;
+	m_pWindow = glfwCreateWindow(vWindowWidth, vWindowHeight, vWindowTitle.c_str(), pMonitor, nullptr);
 	_ASSERTE(m_pWindow);
+	glfwSetWindowPos(m_pWindow, vWinPosX, vWinPosY);
 	glfwMakeContextCurrent(m_pWindow);
 	glewExperimental = GL_TRUE;
 

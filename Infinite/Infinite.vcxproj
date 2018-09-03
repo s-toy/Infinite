@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\gameConfig.cpp" />
     <ClCompile Include="src\gameRenderer.cpp" />
     <ClCompile Include="src\gameShadingTechnique.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\constants.h" />
+    <ClInclude Include="src\gameConfig.h" />
     <ClInclude Include="src\gameRenderer.h" />
     <ClInclude Include="src\gameShadingTechnique.h" />
     <ClInclude Include="src\mathUtil.h" />
@@ -50,6 +52,7 @@
     <ClInclude Include="src\textureUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="gameConfig.json" />
     <None Include="res\shaders\core\drawQuad_vs.glsl" />
     <None Include="res\shaders\core\mainImage_fs.glsl" />
     <None Include="res\shaders\core\renderPlayer_fs.glsl" />
@@ -63,6 +66,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F46EF3BB-3476-4E0F-9B1F-7FFE095CD45C}</ProjectGuid>
     <RootNamespace>Infinite</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

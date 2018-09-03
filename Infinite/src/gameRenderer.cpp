@@ -1,12 +1,14 @@
 #include "gameRenderer.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+#include <boost/format.hpp>
 #include "gameShadingTechnique.h"
 #include "meshRenderer.h"
 #include "textureUtil.h"
 #include "constants.h"
 #include "common.h"
 #include "player.h"
+#include "gameConfig.h"
 
 using namespace Constant;
 
@@ -29,19 +31,22 @@ CGameRenderer::~CGameRenderer()
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int vWindowHeight)
+void CGameRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int vWindowHeight, int vWinPosX, int vWinPosY, bool vIsFullscreen)
 {
-	COpenGLRenderer::initV(vWindowTitle, vWindowWidth, vWindowHeight);
+	COpenGLRenderer::initV(vWindowTitle, vWindowWidth, vWindowHeight, vWinPosX, vWinPosY, vIsFullscreen);
 	__initTechniques();
 	__initBuffers();
+	__initTextures();
 	__initRenderers();
 	__initPlayer();
 	__buildCircleSampleOffsets();
 
 	m_StartTime = clock();
-	m_BarrageTex = util::setupTexture(vWindowWidth, vWindowHeight, GL_RGBA32F, GL_RGBA);
+	m_MainImageTex = util::setupTexture(vWindowWidth, vWindowHeight, GL_RGBA32F, GL_RGBA);
+	auto Config = CGameConfig::getInstance()->getConfig();
+	m_WinSize = glm::ivec2(Config.winWidth, Config.winHeight);
 
-	glViewport(0, 0, WIN_WIDTH, WIN_HEIGHT);
+	glViewport(0, 0, m_WinSize.x, m_WinSize.y);
 	glfwSetKeyCallback(m_pWindow, __keyCallback);
 }
 
@@ -50,10 +55,8 @@ void CGameRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int
 void CGameRenderer::_updateV()
 {
 	m_CurrentTime = clock();
-	__drawBackgroundQuad();
-	__renderBarrage2Texture();
-	__drawBarrageQuad();
-	__drawPlayerQuad();
+	__mainImagePass();
+	__renderPlayerPass();
 
 	bool IsIntersected = __detectCollision();
 	//static int i = 0;
@@ -116,27 +119,32 @@ void CGameRenderer::__initPlayer()
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__drawBackgroundQuad()
+void CGameRenderer::__initTextures()
 {
-
+	auto Config = CGameConfig::getInstance()->getConfig();
+	for (int i = 0; i < 4; ++i)
+	{
+		if (!Config.iChannel[i].empty())
+			m_ChannelTextures[i] = util::loadTexture(Config.iChannel[i].c_str());
+		else
+			m_ChannelTextures[i] = 0;
+	}
 }
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__renderBarrage2Texture()
+void CGameRenderer::__renderMainImage2Texture()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, WIN_WIDTH, WIN_HEIGHT);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_BarrageTex, 0);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, m_WinSize.x, m_WinSize.y);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_MainImageTex, 0);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	m_pShadingTechnique->enableShader("RenderBarragePass");
+	m_pShadingTechnique->enableShader("mainImagePass");
 
-	m_pShadingTechnique->updateStandShaderUniform("iResolution", glm::vec2(WIN_WIDTH, WIN_HEIGHT));
-	float time = (float)(m_CurrentTime - m_StartTime) / CLOCKS_PER_SEC;
-	m_pShadingTechnique->updateStandShaderUniform("iTime", time);
+	__updateShaderUniforms4MainImagePass();
 
 	m_pQuadRenderer->draw();
 	m_pShadingTechnique->disableShader();
@@ -147,15 +155,17 @@ void CGameRenderer::__renderBarrage2Texture()
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__drawBarrageQuad()
+void CGameRenderer::__mainImagePass()
 {
+	__renderMainImage2Texture();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	m_pShadingTechnique->enableShader("TextureCopyPass");
+	m_pShadingTechnique->enableShader("textureCopyPass");
 	m_pShadingTechnique->updateStandShaderUniform("uTexture", 0);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_BarrageTex);
+	glBindTexture(GL_TEXTURE_2D, m_MainImageTex);
 	m_pQuadRenderer->draw();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -164,17 +174,17 @@ void CGameRenderer::__drawBarrageQuad()
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__drawPlayerQuad()
+void CGameRenderer::__renderPlayerPass()
 {
-	m_pShadingTechnique->enableShader("RenderPlayerPass");
+	m_pShadingTechnique->enableShader("renderPlayerPass");
 
 	glm::mat4 ModelMatrix = glm::mat4(1.0f);
-	auto Pos = 2.0f * m_pPlayer->position() / glm::vec2(WIN_WIDTH, WIN_HEIGHT) - 1.0f;
+	auto Pos = 2.0f * m_pPlayer->position() / glm::vec2(m_WinSize) - 1.0f;
 	ModelMatrix = glm::translate(ModelMatrix, glm::vec3(Pos, 0.0f));
 	float Scale = 0.1f;
 	ModelMatrix = glm::scale(ModelMatrix, glm::vec3(Scale));
 	m_pShadingTechnique->updateStandShaderUniform("uModelMatrix", ModelMatrix);
-	m_pShadingTechnique->updateStandShaderUniform("iResolution", Scale * glm::vec2(WIN_WIDTH, WIN_HEIGHT));
+	m_pShadingTechnique->updateStandShaderUniform("iResolution", Scale * glm::vec2(m_WinSize));
 	m_pShadingTechnique->updateStandShaderUniform("iRadius", (float)m_pPlayer->radius());
 
 	m_pQuadRenderer->draw();
@@ -188,8 +198,8 @@ bool CGameRenderer::__detectCollision()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, WIN_WIDTH, WIN_HEIGHT);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_BarrageTex, 0);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, m_WinSize.x, m_WinSize.y);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_MainImageTex, 0);
 
 	auto Pos = m_pPlayer->position();
 	auto Radius = m_pPlayer->radius();
@@ -228,6 +238,22 @@ void CGameRenderer::__buildCircleSampleOffsets()
 		int Y = sin(Theta) * R + R;
 
 		m_CircleSampleOffsets.emplace_back(glm::ivec2(X, Y));
+	}
+}
+
+//*********************************************************************************
+//FUNCTION:
+void CGameRenderer::__updateShaderUniforms4MainImagePass()
+{
+	m_pShadingTechnique->updateStandShaderUniform("iResolution", glm::vec2(m_WinSize));
+	float Time = (float)(m_CurrentTime - m_StartTime) / CLOCKS_PER_SEC;
+	m_pShadingTechnique->updateStandShaderUniform("iTime", Time);
+
+	for (int i = 0; i < 4; ++i) {
+		if (m_ChannelTextures[i] != 0) {
+			std::string UniformName = boost::str(boost::format("iChannel%1%") % i);
+			m_pShadingTechnique->updateStandShaderUniform(UniformName, m_ChannelTextures[i]);
+		}
 	}
 }
 

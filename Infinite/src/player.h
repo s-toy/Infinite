@@ -24,4 +24,7 @@ private:
 	glm::vec2 m_Position;
 	int m_Radius; // radius in pixel
 	float m_MoveSpeed;
+
+	int m_WinWidth;
+	int m_WinHeight;
 };

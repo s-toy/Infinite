@@ -10,7 +10,7 @@ public:
 	COpenGLRenderer();
 	virtual ~COpenGLRenderer();
 
-	virtual void initV(const std::string& vWindowTitle, int vWindowWidth, int vWindowHeight);
+	virtual void initV(const std::string& vWindowTitle, int vWindowWidth, int vWindowHeight, int vWinPosX, int vWinPosY, bool vIsFullscreen = false);
 	virtual void runV();
 
 protected:

@@ -1,0 +1,18 @@
+{
+  "winName": "Infinite",
+  "winSize": {
+    "width": 1600,
+    "height": 900
+  },
+  "winPos": {
+    "x": 100,
+    "y": 50
+  },
+  "fullScreen": false,
+
+  "mainImageShader": "res/shaders/custom/andSoft_fs.glsl",
+  "iChannel0": "res/textures/01.jpg",
+  "iChannel1": "",
+  "iChannel2": "",
+  "iChannel3": ""
+}

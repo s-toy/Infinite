@@ -66,6 +66,9 @@
     <ClCompile Include="src\mathUtil.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="src\gameConfig.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h">
@@ -110,6 +113,9 @@
     <ClInclude Include="src\mathUtil.h">
       <Filter>Source Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\gameConfig.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\core\drawQuad_vs.glsl">
@@ -136,5 +142,6 @@
     <None Include="res\shaders\custom\sky_fs.glsl">
       <Filter>Shader Files\custom</Filter>
     </None>
+    <None Include="gameConfig.json" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,32 @@
-#define SHOW_DEBUG_GRID (1)
-#define DO_POSTPROCESS  (1)
+#define SHOW_DEBUG_GRID 0
+#define DO_POSTPROCESS  1
+
+#define _A 1
+#define _B 2
+#define _C 3
+#define _D 4
+#define _E 5
+#define _F 6
+#define _G 7
+#define _H 8
+#define _I 9
+#define _J 10
+#define _K 11
+#define _L 12
+#define _M 13
+#define _N 14
+#define _O 15
+#define _P 16
+#define _Q 17
+#define _R 18
+#define _S 19
+#define _T 20
+#define _U 21
+#define _V 22
+#define _W 23
+#define _X 24
+#define _Y 25
+#define _Z 26
 
 // System font (vec2 per character)
 highp vec4 fnt0 = vec4(0, 0, 544926, 544959);
@@ -65,22 +92,22 @@ bool fetchBoldBit(vec2 bitmap, float x, float y)
 
 vec3 getColor(int idx)
 {
-	vec3 clr = vec3(0.0, 0.0, 0.0);
+	vec3 col = vec3(0.0, 0.0, 0.0);
 
 	idx = idx - (idx / 16) * 16;
 	int i = idx - (idx / 8) * 8;
 
-	clr = i == 1 ? vec3(0, 0, 1) : clr;
-	clr = i == 2 ? vec3(1, 0, 0) : clr;
-	clr = i == 3 ? vec3(1, 0, 1) : clr;
-	clr = i == 4 ? vec3(0, 1, 0) : clr;
-	clr = i == 5 ? vec3(0, 1, 1) : clr;
-	clr = i == 6 ? vec3(1, 1, 0) : clr;
-	clr = i == 7 ? vec3(1, 1, 1) : clr;
+	col = i == 1 ? vec3(0, 0, 1) : col;
+	col = i == 2 ? vec3(1, 0, 0) : col;
+	col = i == 3 ? vec3(1, 0, 1) : col;
+	col = i == 4 ? vec3(0, 1, 0) : col;
+	col = i == 5 ? vec3(0, 1, 1) : col;
+	col = i == 6 ? vec3(1, 1, 0) : col;
+	col = i == 7 ? vec3(1, 1, 1) : col;
 
-	clr *= idx >= 8 ? 1.0 : 0.63;
+	col *= idx >= 8 ? 1.0 : 0.63;
 
-	return clr;
+	return col;
 }
 
 vec2 hash22(vec2 p)
@@ -98,115 +125,98 @@ vec2 noise(float t)
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
 	float t = iTime;
-
-	float aspect = 256.0 / 192.0;
-	float s = min(iResolution.x, iResolution.y);
-	s *= min(1.0, (iResolution.x / s) / aspect);
-	float s2 = 1.2;
-	s *= s2;
-	vec2 uv = (fragCoord.xy + 0.0001) / s;
-	vec2 uvc = 0.5 * iResolution.xy / s;
-
-	bool show_loader = 1.0 < t;
-
-	vec3 clr = vec3(0.0, 0.0, 0.0);
+	vec2 uv = .8 * (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
+	vec3 col = vec3(0.0);
 
 	int border = 0;
 	int scr = 0;
 	int bkg = 0;
 	int attr = 0;
+
+	bool bold_font = true;
+	bool show_loader = 1.0 < t;
 	bool flash_phase = fract(t * 1.55) > 0.5;
 
 	float at = floor(t * 11.1 + 0.35);
 
-	vec2 p = uv - uvc;
-	vec2 q = floor(p * 32.0 * 8.0) / 8.0;
-	p = floor(p * 32.0);
-	p += vec2(16.0, 12.0);
-	q += vec2(16.0, 12.0);
-
-	vec3 c = vec3(0.0, 0.0, 0.0);
+	vec2 o = vec2(16.0, 12.0);
+	vec2 p = floor(uv * 32.0) + o;
+	vec2 q = floor(uv * 32.0 * 8.0) / 8.0 + o;
 	vec2 oq = q;
 
-#define X(sym) h = floor(q.x) == cx ? vec3(sym,q.xy) : h; cx += 1.0;
+	vec3 c = vec3(0.0);
+
+#define X(sym) h = floor(q.x)==cx ? vec3(sym,q.xy) : h; cx += 1.0;
 
 	float cx = 0.0;
 
-	// PRESENTS
-	{
-		bool hit = floor(q.y) == 15.0;
+	// SGAME
+    {
+        bool hit = q.y>=21.5 && q.y<23.5;
+        vec2 q = floor(uv * 16.0 * 8.0 + vec2(-4.0, 2.0)) / 8.0 + o;
+        vec3 h = vec3(0.0);
 
-		vec3 h = vec3(0.0, 0.0, 0.0);
+        cx = 13.0;
+		X(_S) X(_G) X(_A) X(_M) X(_E);
+
+        int _attr = int(mod(-at, 8.0));
+        c = hit ? h : c;
+        attr = hit ? _attr : attr;
+    }
+
+	// INFINITE
+	{
+		bool hit = q.y>16.0 && q.y<20.0;
+		vec2 q = floor(uv * vec2(12.0, 8.0) * 8.0) / 8.0 + o;
+		vec3 h = vec3(0.0);
+
 		cx = 12.0;
-		X(16)X(18)X(5)X(19)X(5)X(14)X(20)X(19);
+		X(_I) X(_N) X(_F) X(_I) X(_N) X(_I) X(_T) X(_E);
+
+		int _attr = int(mod(abs(floor(oq.y) - 15.5) - at, 8.0));
+		c = hit ? h : c;
+		attr = hit ? _attr : attr;
+	}
+
+	// MADE BY IKUTO
+	{
+		bool hit = floor(q.y)==14.0;
+		vec3 h = vec3(0.0);
+
+		cx = 10.0;
+		X(_M) X(_A) X(_D) X(_E);
+		cx += 1.0;
+		X(_B) X(_Y);
+		cx += 1.0;
+		X(_I) X(_K) X(_U) X(_T) X(_O);
+
 		int _attr = int(mod(abs(floor(q.x) - 15.5) - at + 3.0, 8.0));
-
 		c = hit ? h : c;
 		attr = hit ? _attr : attr;
 	}
 
-	// SHADERTOY
+	//PRESS SPACE TO START
 	{
-		bool hit = q.y > 16.0 && q.y < 20.0;
+		bool hit = floor(q.y)==4.0;
+		vec3 h = vec3(0.0);
 
-		vec2 p = uv - uvc;
-		vec2 q = floor(p * vec2(12.0, 8.0) * 8.0 + vec2(4.0, 0.0)) / 8.0;
-		q += vec2(16.0, 12.0);
-		q = floor(q * 8.0) / 8.0;
-
-		vec3 h = vec3(0.0, 0.0, 0.0);
-		cx = 12.0;
-		X(9)X(14)X(6)X(9)X(14)X(9)X(20)X(5)
-			int _attr = int(mod(abs(floor(oq.y) - 15.5) - at, 8.0));
+		cx = 6.0;
+		X(_P) X(_R) X(_E) X(_S) X(_S);
+		cx += 1.0;
+		X(_S) X(_P) X(_A) X(_C) X(_E);
+		cx += 1.0;
+		X(_T) X(_O)
+		cx += 1.0;
+		X(_S) X(_T) X(_A) X(_R) X(_T);
 
 		c = hit ? h : c;
-		attr = hit ? _attr : attr;
-	}
-
-	vec2 q_msg = vec2(16.0, 12.0) + floor((uv - uvc) * 32.0 * 8.0 + vec2(0.0, 4.0)) / 8.0;
-
-	// SF, CA
-	{
-		bool hit = q.y >= 13.5 && q.y < 14.5;
-
-		vec2 q = q_msg;
-		vec3 h = vec3(0.0, 0.0, 0.0);
-		cx = 0.0;
-		X(19)X(1)X(14)
-			cx += 1.0;
-		X(6)X(18)X(1)X(14)X(3)X(9)X(19)X(3)X(15)X(38)X(3)X(1)
-			cx += 2.0;
-		X(27)X(39)X(34)X(36)X(36)X(39)X(31)X(31)X(31)X(39)X(36)X(27)X(35)X(35)
-
-			c = hit ? h : c;
-	}
-
-	// LOADER
-	{
-		bool hit = q.y >= 12.5 && q.y < 13.5;
-
-		vec2 q = q_msg;
-		vec3 h = vec3(0.0, 0.0, 0.0);
-		cx = 2.0;
-		X(12)X(15)X(1)X(4)X(5)X(18)
-			cx += 1.0;
-		X(2)X(25)
-			cx += 1.0;
-		X(1)X(14)X(4)X(19)X(15)X(6)X(20)
-			cx += 1.0;
-		X(36)X(31)X(37)X(36)X(31)X(37)X(28)X(36)X(27)X(31)
-
-			c = hit ? h : c;
+		attr = hit ? 7 : attr;
+		bold_font = !hit;
 	}
 
 	attr = floor(q.y) == 12.0 ? int(mod(floor(q.x) + at + 3.0, 8.0)) : attr;
 	attr = floor(q.y) == 13.0 ? int(mod(floor(q.x) - at + 3.0, 8.0)) : attr;
 	attr = floor(q.y) == 14.0 ? int(mod(floor(q.x) + at, 8.0)) : attr;
-
-	if (!show_loader)
-	{
-		c = vec3(0.0, 0.0, 0.0);
-	}
 
 	if (show_loader && q.y >= 8.0 && q.y < 12.0)
 	{
@@ -242,19 +252,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 		attr = int(mod(abs(floor(oq.y) - 15.5) + at * 1.0 + 3.0, 8.0));
 	}
 
-	bool show_running_message = show_loader && p.x >= 0.0 && p.x < 32.0 && p.y >= 0.0 && p.y < 8.0;
-
-	float rl_px = 0.0;
-	float rl_px2 = 0.0;
-
 	vec2 bitmap = fetchChrBitmap(c.x);
-
 
 	if (c.x > 0.0)
 	{
 		vec2 pix = fract(c.yz + vec2(0.0, -1.0 / 8.0)) * 8.0;
-
-		if (show_loader)
+		if (bold_font)
 			scr = int(fetchBoldBit(bitmap, pix.x, pix.y));
 		else
 			scr = int(fetchBit(bitmap, pix.x, pix.y));
@@ -277,17 +280,17 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 		if (fract(q.x) * 8.0 == 6.0 && ry < rt) scr = 1;
 	}
 
-	clr = getColor(scr > 0 ? attr : bkg);
+	col = getColor(scr > 0 ? attr : bkg);
 
 #if SHOW_DEBUG_GRID
-	clr += fract(floor(q.y) * 0.5 + floor(q.x) * 0.5) > 0.0 ? 0.2 : 0.0;
+	col += fract(floor(q.y) * 0.5 + floor(q.x) * 0.5) > 0.0 ? 0.2 : 0.0;
 #endif
 
-	if (p.x < 0.0 || p.x >= 32.0 || p.y < 0.0 || p.y >= 24.0) clr = getColor(border);
+	if (p.x < 0.0 || p.x >= 32.0 || p.y < 0.0 || p.y >= 24.0) col = getColor(border);
 
 #if DO_POSTPROCESS
 	{
-		clr *= clr;
+		col *= col;
 		vec2 sp = (fragCoord.xy + 0.000) * 0.15 * 3.1415 * 4.0;
 		vec3 m = vec3(
 			1.0 - pow(1.0 - (sin(sp.x - 0.0) * 0.1 + 0.9), 0.75),
@@ -296,21 +299,21 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 		) * (1.0 - pow(1.0 - (sin(sp.y * 0.9 - 0.8) * 0.2 + 0.8), 2.0));
 
 		vec3 em = vec3(0.04, 0.3, 0.08);
-		em *= pow(max(0.0, 1.5 - 1.2 * dot(uv - uvc, uv - uvc)), 2.0) * 0.008;
-		clr += em * m;
+		em *= pow(max(0.0, 1.5 - 1.2 * dot(uv, uv)), 2.0) * 0.008;
+		col += em * m;
 
-		clr = clr * (0.4 + 0.7 * m);
+		col = col * (0.4 + 0.7 * m);
 
-		clr *= 1.0 + 0.015 * sin(uv.y * 4.0 + t * 33.0);
-		clr *= 1.2 - 0.4 * dot(uv - uvc, uv - uvc);
+		col *= 1.0 + 0.015 * sin(uv.y * 4.0 + t * 33.0);
+		col *= 1.2 - 0.4 * dot(uv, uv);
 
 		float g = 0.38;
-		clr.x = pow(clr.x, g);
-		clr.y = pow(clr.y, g);
-		clr.z = pow(clr.z, g);
-		clr = mix(clr, smoothstep(0.0, 1.0, clr), 0.5);
+		col.x = pow(col.x, g);
+		col.y = pow(col.y, g);
+		col.z = pow(col.z, g);
+		col = mix(col, smoothstep(0.0, 1.0, col), 0.5);
 	}
 #endif
 
-	fragColor = vec4(clr, 1.0);
+	fragColor = vec4(col, 1.0);
 }

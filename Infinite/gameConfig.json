@@ -10,9 +10,9 @@
   },
   "fullScreen": false,
 
-  "mainImageShader": "res/shaders/custom/gameHead_fs.glsl",
-  "iChannel0": "res/textures/00.jpg",
-  "iChannel1": "res/textures/01.jpg",
-  "iChannel2": "res/textures/02.jpg",
-  "iChannel3": "res/textures/03.jpg"
+  "mainImageShader": "res/shaders/custom/head/headA_fs.glsl",
+  "iChannel0": "",
+  "iChannel1": "",
+  "iChannel2": "",
+  "iChannel3": ""
 }

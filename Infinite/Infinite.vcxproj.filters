@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{65e37aeb-658b-4fc4-8f1a-edb7adfc2c9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader Files\custom\head">
+      <UniqueIdentifier>{359a201e-6f06-40ee-9326-5698954afd3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -146,8 +149,11 @@
     <None Include="res\shaders\custom\displayPicture_fs.glsl">
       <Filter>Shader Files\custom</Filter>
     </None>
-    <None Include="res\shaders\custom\gameHead_fs.glsl">
-      <Filter>Shader Files\custom</Filter>
+    <None Include="res\shaders\custom\head\headA_fs.glsl">
+      <Filter>Shader Files\custom\head</Filter>
+    </None>
+    <None Include="res\shaders\custom\head\headB_fs.glsl">
+      <Filter>Shader Files\custom\head</Filter>
     </None>
   </ItemGroup>
 </Project>

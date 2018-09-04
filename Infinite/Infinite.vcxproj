@@ -57,7 +57,7 @@
     <None Include="res\shaders\core\mainImage_fs.glsl" />
     <None Include="res\shaders\core\renderPlayer_fs.glsl" />
     <None Include="res\shaders\core\textureCopy_fs.glsl" />
-    <None Include="res\shaders\custom\andSoft_fs.glsl" />
+    <None Include="res\shaders\custom\gameHead_fs.glsl" />
     <None Include="res\shaders\custom\colorfulHeart_fs.glsl" />
     <None Include="res\shaders\custom\contrastSpeedIllusion_fs.glsl" />
     <None Include="res\shaders\custom\displayPicture_fs.glsl" />

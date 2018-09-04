@@ -127,9 +127,6 @@
     <None Include="res\shaders\core\renderPlayer_fs.glsl">
       <Filter>Shader Files\core</Filter>
     </None>
-    <None Include="res\shaders\custom\andSoft_fs.glsl">
-      <Filter>Shader Files\custom</Filter>
-    </None>
     <None Include="res\shaders\custom\colorfulHeart_fs.glsl">
       <Filter>Shader Files\custom</Filter>
     </None>
@@ -147,6 +144,9 @@
       <Filter>Shader Files\custom</Filter>
     </None>
     <None Include="res\shaders\custom\displayPicture_fs.glsl">
+      <Filter>Shader Files\custom</Filter>
+    </None>
+    <None Include="res\shaders\custom\gameHead_fs.glsl">
       <Filter>Shader Files\custom</Filter>
     </None>
   </ItemGroup>

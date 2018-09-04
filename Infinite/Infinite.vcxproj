@@ -27,7 +27,6 @@
     <ClCompile Include="src\mathUtil.cpp" />
     <ClCompile Include="src\meshRenderer.cpp" />
     <ClCompile Include="src\openglRenderer.cpp" />
-    <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\shadingTechnique.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
@@ -44,7 +43,6 @@
     <ClInclude Include="src\mathUtil.h" />
     <ClInclude Include="src\meshRenderer.h" />
     <ClInclude Include="src\openglRenderer.h" />
-    <ClInclude Include="src\player.h" />
     <ClInclude Include="src\shader.h" />
     <ClInclude Include="src\shadingTechnique.h" />
     <ClInclude Include="src\stb_image.h" />
@@ -55,15 +53,14 @@
     <None Include="gameConfig.json" />
     <None Include="res\shaders\core\drawQuad_vs.glsl" />
     <None Include="res\shaders\core\mainImage_fs.glsl" />
-    <None Include="res\shaders\core\renderPlayer_fs.glsl" />
     <None Include="res\shaders\core\textureCopy_fs.glsl" />
-    <None Include="res\shaders\custom\colorfulHeart_fs.glsl" />
-    <None Include="res\shaders\custom\contrastSpeedIllusion_fs.glsl" />
-    <None Include="res\shaders\custom\displayPicture_fs.glsl" />
+    <None Include="res\shaders\custom\body\colorfulHeart_fs.glsl" />
+    <None Include="res\shaders\custom\body\contrastSpeedIllusion_fs.glsl" />
+    <None Include="res\shaders\custom\body\displayPicture_fs.glsl" />
+    <None Include="res\shaders\custom\body\sky_fs.glsl" />
+    <None Include="res\shaders\custom\body\tinyCloud_fs.glsl" />
     <None Include="res\shaders\custom\head\headA_fs.glsl" />
     <None Include="res\shaders\custom\head\headB_fs.glsl" />
-    <None Include="res\shaders\custom\sky_fs.glsl" />
-    <None Include="res\shaders\custom\tinyCloud_fs.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

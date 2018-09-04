@@ -1,18 +1,42 @@
 {
   "winName": "Infinite",
-  "winSize": {
-    "width": 1600,
-    "height": 900
-  },
-  "winPos": {
-    "x": 100,
-    "y": 50
-  },
+  "winSize": { "width": 1600, "height": 900 },
+  "winPos": { "x": 100, "y": 50 },
   "fullScreen": false,
+  "entrySceneID":  0,
 
-  "mainImageShader": "res/shaders/custom/head/headA_fs.glsl",
-  "iChannel0": "",
-  "iChannel1": "",
-  "iChannel2": "",
-  "iChannel3": ""
+  "scene": [
+    {
+      "id": 0,
+      "mainImageShader": "res/shaders/custom/head/headA_fs.glsl",
+      "iChannel0": "",
+      "iChannel1": "",
+      "iChannel2": "",
+      "iChannel3": ""
+    },
+    {
+      "id": 1,
+      "mainImageShader": "res/shaders/custom/body/displayPicture_fs.glsl",
+      "iChannel0": "res/textures/00.jpg",
+      "iChannel1": "res/textures/01.jpg",
+      "iChannel2": "res/textures/02.jpg",
+      "iChannel3": "res/textures/03.jpg"
+    },
+    {
+      "id": 2,
+      "mainImageShader": "res/shaders/custom/body/contrastSpeedIllusion_fs.glsl",
+      "iChannel0": "",
+      "iChannel1": "",
+      "iChannel2": "",
+      "iChannel3": ""
+    },
+    {
+      "id": 3,
+      "mainImageShader": "res/shaders/custom/body/colorfulHeart_fs.glsl",
+      "iChannel0": "",
+      "iChannel1": "",
+      "iChannel2": "",
+      "iChannel3": ""
+    }
+  ]
 }

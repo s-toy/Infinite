@@ -23,18 +23,15 @@ protected:
 	virtual void _handleEventsV() override;
 
 private:
-	void __initTechniques();
-	void __initBuffers();
-	void __initRenderers();
-	void __initPlayer();
-	void __initTextures();
-	void __initUniforms();
+	void __loadScene(unsigned int vSceneID);
+	void __renderScene();
+	void __destroyScene();
 
-	void __renderMainImage2Texture();
+	void __initTechniques();
+	void __initRenderers();
+	void __initTextures();
+
 	void __mainImagePass();
-	void __renderPlayerPass();
-	bool __detectCollision();
-	void __buildCircleSampleOffsets();
 	void __updateShaderUniforms4MainImagePass();
 
 	void __destory();
@@ -44,15 +41,11 @@ private:
 private:
 	CShadingTechnique* m_pShadingTechnique;
 	CMeshRenderer* m_pQuadRenderer;
-	CPlayer* m_pPlayer;
 
 	clock_t m_StartTime;
 	clock_t m_CurrentTime;
-	GLuint m_MainImageTex;
-	GLuint m_CaptureFBO;
-	GLuint m_CaptureRBO;
-	GLuint m_ChannelTextures[4];
 
-	std::vector<glm::ivec2> m_CircleSampleOffsets;
+	GLuint m_ChannelTextures[4];
+	unsigned int m_CurrentSceneID;
 	glm::ivec2 m_WinSize;
 };

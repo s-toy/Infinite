@@ -28,6 +28,9 @@
     <Filter Include="Shader Files\custom\head">
       <UniqueIdentifier>{359a201e-6f06-40ee-9326-5698954afd3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader Files\custom\body">
+      <UniqueIdentifier>{71610492-3306-4015-88a9-859e172e2fcf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -62,9 +65,6 @@
     </ClCompile>
     <ClCompile Include="src\meshRenderer.cpp">
       <Filter>Source Files\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\player.cpp">
-      <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\mathUtil.cpp">
       <Filter>Source Files\Utility</Filter>
@@ -110,9 +110,6 @@
     <ClInclude Include="src\common.h">
       <Filter>Source Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="src\player.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="src\mathUtil.h">
       <Filter>Source Files\Utility</Filter>
     </ClInclude>
@@ -127,33 +124,30 @@
     <None Include="res\shaders\core\mainImage_fs.glsl">
       <Filter>Shader Files\core</Filter>
     </None>
-    <None Include="res\shaders\core\renderPlayer_fs.glsl">
-      <Filter>Shader Files\core</Filter>
-    </None>
-    <None Include="res\shaders\custom\colorfulHeart_fs.glsl">
-      <Filter>Shader Files\custom</Filter>
-    </None>
-    <None Include="res\shaders\custom\contrastSpeedIllusion_fs.glsl">
-      <Filter>Shader Files\custom</Filter>
-    </None>
     <None Include="res\shaders\core\textureCopy_fs.glsl">
       <Filter>Shader Files\core</Filter>
     </None>
-    <None Include="res\shaders\custom\sky_fs.glsl">
-      <Filter>Shader Files\custom</Filter>
-    </None>
     <None Include="gameConfig.json" />
-    <None Include="res\shaders\custom\tinyCloud_fs.glsl">
-      <Filter>Shader Files\custom</Filter>
-    </None>
-    <None Include="res\shaders\custom\displayPicture_fs.glsl">
-      <Filter>Shader Files\custom</Filter>
-    </None>
     <None Include="res\shaders\custom\head\headA_fs.glsl">
       <Filter>Shader Files\custom\head</Filter>
     </None>
     <None Include="res\shaders\custom\head\headB_fs.glsl">
       <Filter>Shader Files\custom\head</Filter>
+    </None>
+    <None Include="res\shaders\custom\body\colorfulHeart_fs.glsl">
+      <Filter>Shader Files\custom\body</Filter>
+    </None>
+    <None Include="res\shaders\custom\body\contrastSpeedIllusion_fs.glsl">
+      <Filter>Shader Files\custom\body</Filter>
+    </None>
+    <None Include="res\shaders\custom\body\displayPicture_fs.glsl">
+      <Filter>Shader Files\custom\body</Filter>
+    </None>
+    <None Include="res\shaders\custom\body\sky_fs.glsl">
+      <Filter>Shader Files\custom\body</Filter>
+    </None>
+    <None Include="res\shaders\custom\body\tinyCloud_fs.glsl">
+      <Filter>Shader Files\custom\body</Filter>
     </None>
   </ItemGroup>
 </Project>

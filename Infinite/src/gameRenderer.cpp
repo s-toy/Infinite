@@ -7,7 +7,6 @@
 #include "textureUtil.h"
 #include "constants.h"
 #include "common.h"
-#include "player.h"
 #include "gameConfig.h"
 
 using namespace Constant;
@@ -15,11 +14,9 @@ using namespace Constant;
 namespace
 {
 	bool g_Keys[1024];
-	const int CIRCLE_SAMPLE_COUNT = 64;
-	const float INTERSECT_THRESHOLD = 0.2f;
 }
 
-CGameRenderer::CGameRenderer() : m_pShadingTechnique(nullptr), m_pQuadRenderer(nullptr), m_pPlayer(nullptr)
+CGameRenderer::CGameRenderer() : m_pShadingTechnique(nullptr), m_pQuadRenderer(nullptr), m_CurrentSceneID(0)
 {
 
 }
@@ -35,20 +32,15 @@ void CGameRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int
 {
 	COpenGLRenderer::initV(vWindowTitle, vWindowWidth, vWindowHeight, vWinPosX, vWinPosY, vIsFullscreen);
 	__initTechniques();
-	__initBuffers();
-	__initTextures();
 	__initRenderers();
-	__initPlayer();
-	__buildCircleSampleOffsets();
-	__initUniforms();
 
-	m_StartTime = clock();
-	m_MainImageTex = util::setupTexture(vWindowWidth, vWindowHeight, GL_RGBA32F, GL_RGBA);
 	auto Config = CGameConfig::getInstance()->getConfig();
 	m_WinSize = glm::ivec2(Config.winWidth, Config.winHeight);
 
 	glViewport(0, 0, m_WinSize.x, m_WinSize.y);
 	glfwSetKeyCallback(m_pWindow, __keyCallback);
+
+	__loadScene(Config.entrySceneID);
 }
 
 //*********************************************************************************
@@ -56,27 +48,47 @@ void CGameRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int
 void CGameRenderer::_updateV()
 {
 	m_CurrentTime = clock();
-	__mainImagePass();
-	__renderPlayerPass();
-
-	bool IsIntersected = __detectCollision();
-	//static int i = 0;
-	//if (IsIntersected) std::cout << "intersect:" << ++i << std::endl;
+	__renderScene();
 }
 
 //*********************************************************************************
 //FUNCTION:
 void CGameRenderer::_handleEventsV()
 {
-	if (g_Keys[GLFW_KEY_UP])
-		m_pPlayer->moveUp();
-	else if (g_Keys[GLFW_KEY_DOWN])
-		m_pPlayer->moveDown();
+	if (g_Keys[GLFW_KEY_0])
+		__loadScene(0);
+	if (g_Keys[GLFW_KEY_1])
+		__loadScene(1);
+	if (g_Keys[GLFW_KEY_2])
+		__loadScene(2);
+	if (g_Keys[GLFW_KEY_3])
+		__loadScene(3);
+}
 
-	if (g_Keys[GLFW_KEY_LEFT])
-		m_pPlayer->moveLeft();
-	else if (g_Keys[GLFW_KEY_RIGHT])
-		m_pPlayer->moveRight();
+//*********************************************************************************
+//FUNCTION:
+void CGameRenderer::__loadScene(unsigned int vSceneID)
+{
+	if (m_CurrentSceneID == vSceneID) return;
+
+	m_CurrentSceneID = vSceneID;
+	m_StartTime = clock();
+
+	__initTextures();
+}
+
+//*********************************************************************************
+//FUNCTION:
+void CGameRenderer::__renderScene()
+{
+	__mainImagePass();
+}
+
+//*********************************************************************************
+//FUNCTION:
+void CGameRenderer::__destroyScene()
+{
+
 }
 
 //*********************************************************************************
@@ -89,21 +101,6 @@ void CGameRenderer::__initTechniques()
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__initBuffers()
-{
-	glGenFramebuffers(1, &m_CaptureFBO);
-	glGenRenderbuffers(1, &m_CaptureRBO);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_CaptureRBO);
-
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-//*********************************************************************************
-//FUNCTION:
 void CGameRenderer::__initRenderers()
 {
 	m_pQuadRenderer = new CMeshRenderer(QUAD_VERTICES, sizeof(QUAD_VERTICES));
@@ -111,22 +108,14 @@ void CGameRenderer::__initRenderers()
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__initPlayer()
-{
-	m_pPlayer = new CPlayer();
-	m_pPlayer->setPosition(glm::vec2(800.0f, 100.0f));
-	m_pPlayer->setSpeed(0.2f);
-}
-
-//*********************************************************************************
-//FUNCTION:
 void CGameRenderer::__initTextures()
 {
-	auto Config = CGameConfig::getInstance()->getConfig();
+	//TODO: release texture.
+	auto SceneConfig = CGameConfig::getInstance()->getConfig().sceneConfigMap.at(m_CurrentSceneID);
 	for (int i = 0; i < 4; ++i)
 	{
-		if (!Config.iChannel[i].empty())
-			m_ChannelTextures[i] = util::loadTexture(Config.iChannel[i].c_str());
+		if (!SceneConfig.iChannel[i].empty())
+			m_ChannelTextures[i] = util::loadTexture(SceneConfig.iChannel[i].c_str());
 		else
 			m_ChannelTextures[i] = 0;
 	}
@@ -134,128 +123,22 @@ void CGameRenderer::__initTextures()
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__initUniforms()
+void CGameRenderer::__mainImagePass()
 {
-	m_pShadingTechnique->enableShader("mainImagePass");
-	for (int i = 0; i < 4; ++i) {
-		std::string UniformName = boost::str(boost::format("iChannel%1%") % i);
-		m_pShadingTechnique->updateStandShaderUniform(UniformName, i);
-	}
-	m_pShadingTechnique->disableShader();
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__renderMainImage2Texture()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, m_WinSize.x, m_WinSize.y);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_MainImageTex, 0);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	m_pShadingTechnique->enableShader("mainImagePass");
+	auto MainImagePassName = boost::str(boost::format("mainImagePass%1%") % m_CurrentSceneID);
+	m_pShadingTechnique->enableShader(MainImagePassName);
 
 	__updateShaderUniforms4MainImagePass();
-
 	m_pQuadRenderer->draw();
+
 	m_pShadingTechnique->disableShader();
 
 	for (int i = 0; i < 4; ++i) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__mainImagePass()
-{
-	__renderMainImage2Texture();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	m_pShadingTechnique->enableShader("textureCopyPass");
-	m_pShadingTechnique->updateStandShaderUniform("uTexture", 0);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_MainImageTex);
-	m_pQuadRenderer->draw();
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	m_pShadingTechnique->disableShader();
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__renderPlayerPass()
-{
-	m_pShadingTechnique->enableShader("renderPlayerPass");
-
-	glm::mat4 ModelMatrix = glm::mat4(1.0f);
-	auto Pos = 2.0f * m_pPlayer->position() / glm::vec2(m_WinSize) - 1.0f;
-	ModelMatrix = glm::translate(ModelMatrix, glm::vec3(Pos, 0.0f));
-	float Scale = 0.1f;
-	ModelMatrix = glm::scale(ModelMatrix, glm::vec3(Scale));
-	m_pShadingTechnique->updateStandShaderUniform("uModelMatrix", ModelMatrix);
-	m_pShadingTechnique->updateStandShaderUniform("iResolution", Scale * glm::vec2(m_WinSize));
-	m_pShadingTechnique->updateStandShaderUniform("iRadius", (float)m_pPlayer->radius());
-
-	m_pQuadRenderer->draw();
-
-	m_pShadingTechnique->disableShader();
-}
-
-//*********************************************************************************
-//FUNCTION:
-bool CGameRenderer::__detectCollision()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, m_WinSize.x, m_WinSize.y);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_MainImageTex, 0);
-
-	auto Pos = m_pPlayer->position();
-	auto Radius = m_pPlayer->radius();
-	bool IsIntersected = false;
-
-	int W = 2 * Radius + 1;
-	auto pData = new float[4 * W * W];
-	glReadPixels(Pos.x - Radius, Pos.y - Radius, W, W, GL_RGBA, GL_FLOAT, pData);
-	for (auto Offset : m_CircleSampleOffsets)
-	{
-		int SamplePos = 4 * (Offset.y * W + Offset.x);
-		float *pRGBA = &pData[SamplePos];
-
-		float H = INTERSECT_THRESHOLD;
-		if (pRGBA[0] > H || pRGBA[1] > H || pRGBA[2] > H) { IsIntersected = true; break; }
-	}
-
-	SAFE_DELETE_ARRAY(pData);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-
-	return IsIntersected;
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__buildCircleSampleOffsets()
-{
-	float Theta = 0.0f;
-	const float Delta = 2 * PI / CIRCLE_SAMPLE_COUNT;
-	for (float Theta = 0.0f; Theta < 2 * PI; Theta += Delta)
-	{
-		int R = m_pPlayer->radius();
-		int X = cos(Theta) * R + R;
-		int Y = sin(Theta) * R + R;
-
-		m_CircleSampleOffsets.emplace_back(glm::ivec2(X, Y));
 	}
 }
 
@@ -271,6 +154,8 @@ void CGameRenderer::__updateShaderUniforms4MainImagePass()
 		if (m_ChannelTextures[i] != 0) {
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, m_ChannelTextures[i]);
+			std::string UniformName = boost::str(boost::format("iChannel%1%") % i);
+			m_pShadingTechnique->updateStandShaderUniform(UniformName, i);
 		}
 	}
 }
@@ -281,7 +166,6 @@ void CGameRenderer::__destory()
 {
 	SAFE_DELETE(m_pShadingTechnique);
 	SAFE_DELETE(m_pQuadRenderer);
-	SAFE_DELETE(m_pPlayer);
 }
 
 //*********************************************************************************

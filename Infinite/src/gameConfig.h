@@ -1,6 +1,13 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
+
+struct SSceneConfig
+{
+	std::string mainImageShader;
+	std::string iChannel[4];
+};
 
 struct SGameConfig
 {
@@ -10,9 +17,9 @@ struct SGameConfig
 	int winPosX;
 	int winPosY;
 	bool isFullscreen;
+	int entrySceneID;
 
-	std::string mainImageShader;
-	std::string iChannel[4];
+	std::unordered_map<unsigned int, SSceneConfig> sceneConfigMap;
 };
 
 class CGameConfig

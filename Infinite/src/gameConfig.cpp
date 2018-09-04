@@ -1,6 +1,7 @@
 #include "gameConfig.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <boost/foreach.hpp>
 #include "common.h"
 
 using namespace boost::property_tree;
@@ -15,6 +16,8 @@ CGameConfig::~CGameConfig()
 {
 }
 
+//*********************************************************************************
+//FUNCTION:
 void CGameConfig::initConfig(const std::string& vConfigFileName)
 {
 	ptree GameConfig;
@@ -31,11 +34,19 @@ void CGameConfig::initConfig(const std::string& vConfigFileName)
 	m_Config.winPosY = WinPosConfig.get<int>("y");
 
 	m_Config.isFullscreen = GameConfig.get<bool>("fullScreen");
+	m_Config.entrySceneID = GameConfig.get<int>("entrySceneID");
 
-	m_Config.mainImageShader = GameConfig.get<std::string>("mainImageShader");
-	m_Config.iChannel[0]= GameConfig.get<std::string>("iChannel0");
-	m_Config.iChannel[1] = GameConfig.get<std::string>("iChannel1");
-	m_Config.iChannel[2] = GameConfig.get<std::string>("iChannel2");
-	m_Config.iChannel[3] = GameConfig.get<std::string>("iChannel3");
-
+	auto SceneConfigSet = GameConfig.get_child("scene");
+	BOOST_FOREACH(ptree::value_type& Value, SceneConfigSet)
+	{
+		ptree Tree = Value.second;
+		SSceneConfig TmpSceneConfig;
+		auto Id = Tree.get<int>("id");
+		TmpSceneConfig.mainImageShader = Tree.get<std::string>("mainImageShader");
+		TmpSceneConfig.iChannel[0] = Tree.get<std::string>("iChannel0");
+		TmpSceneConfig.iChannel[1] = Tree.get<std::string>("iChannel1");
+		TmpSceneConfig.iChannel[2] = Tree.get<std::string>("iChannel2");
+		TmpSceneConfig.iChannel[3] = Tree.get<std::string>("iChannel3");
+		m_Config.sceneConfigMap.insert(std::make_pair(Id, TmpSceneConfig));
+	}
 }

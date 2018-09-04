@@ -1,0 +1,22 @@
+{
+  "common": "res\\shaders\\custom\\Paint\\Common.glsl",
+
+  "pass": [
+    {
+      "id": 0,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\custom\\Paint\\BufferA.glsl",
+      "channels": [
+        { "type": "buffer", "value": "0" }
+      ]
+    },
+    {
+      "id": 1,
+      "type": "image",
+      "shaderPath": "res\\shaders\\custom\\Paint\\Image.glsl",
+      "channels": [
+        { "type": "buffer", "value": "0" }
+      ]
+    }
+  ]
+}

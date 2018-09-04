@@ -39,9 +39,6 @@
     <ClCompile Include="src\openglRenderer.cpp">
       <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\shader.cpp">
-      <Filter>Source Files\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="src\shadingTechnique.cpp">
       <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
@@ -72,15 +69,15 @@
     <ClCompile Include="src\gameConfig.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\program.cpp">
+      <Filter>Source Files\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h">
       <Filter>Source Files\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\openglRenderer.h">
-      <Filter>Source Files\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\shader.h">
       <Filter>Source Files\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\shadingTechnique.h">
@@ -116,6 +113,9 @@
     <ClInclude Include="src\gameConfig.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="src\program.h">
+      <Filter>Source Files\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\core\drawQuad_vs.glsl">
@@ -148,6 +148,9 @@
     </None>
     <None Include="res\shaders\custom\body\tinyCloud_fs.glsl">
       <Filter>Shader Files\custom\body</Filter>
+    </None>
+    <None Include="res\shaders\custom\Paint\config.json">
+      <Filter>Shader Files\custom</Filter>
     </None>
   </ItemGroup>
 </Project>

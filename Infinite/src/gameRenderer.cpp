@@ -16,7 +16,7 @@ namespace
 	bool g_Keys[1024];
 }
 
-CGameRenderer::CGameRenderer() : m_pShadingTechnique(nullptr), m_pQuadRenderer(nullptr), m_CurrentSceneID(0)
+CGameRenderer::CGameRenderer() : m_pShadingTechnique(nullptr), m_pQuadRenderer(nullptr), m_CurrentSceneID(-1)
 {
 
 }
@@ -33,6 +33,7 @@ void CGameRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int
 	COpenGLRenderer::initV(vWindowTitle, vWindowWidth, vWindowHeight, vWinPosX, vWinPosY, vIsFullscreen);
 	__initTechniques();
 	__initRenderers();
+	__initBuffers();
 
 	auto Config = CGameConfig::getInstance()->getConfig();
 	m_WinSize = glm::ivec2(Config.winWidth, Config.winHeight);
@@ -55,14 +56,9 @@ void CGameRenderer::_updateV()
 //FUNCTION:
 void CGameRenderer::_handleEventsV()
 {
-	if (g_Keys[GLFW_KEY_0])
-		__loadScene(0);
-	if (g_Keys[GLFW_KEY_1])
-		__loadScene(1);
-	if (g_Keys[GLFW_KEY_2])
-		__loadScene(2);
-	if (g_Keys[GLFW_KEY_3])
-		__loadScene(3);
+	for (int i = 0; i <= 9; ++i) {
+		if (g_Keys[GLFW_KEY_0 + i]) __loadScene(i);
+	}
 }
 
 //*********************************************************************************
@@ -74,14 +70,52 @@ void CGameRenderer::__loadScene(unsigned int vSceneID)
 	m_CurrentSceneID = vSceneID;
 	m_StartTime = clock();
 
-	__initTextures();
+	__initPasses();
 }
 
 //*********************************************************************************
 //FUNCTION:
 void CGameRenderer::__renderScene()
 {
-	__mainImagePass();
+	for (int i = 0; i < m_PassConfigSet.size(); ++i)
+	{
+		__renderPass(i);
+	}
+}
+
+//*********************************************************************************
+//FUNCTION:
+void CGameRenderer::__renderPass(int vPassIndex)
+{
+	auto& PassConfig = m_PassConfigSet[vPassIndex];
+	auto& Type = PassConfig.type;
+
+	if (PassType::BUFFER == Type) {
+		glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
+		glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, m_WinSize.x, m_WinSize.y);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_RenderTextures[vPassIndex], 0);
+	}
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	auto PassName = boost::str(boost::format("pass%1%") % PassConfig.passID);
+	m_pShadingTechnique->enableProgram(PassName);
+
+	__updateShaderUniforms4ImagePass(vPassIndex);
+	m_pQuadRenderer->draw();
+
+	m_pShadingTechnique->disableProgram();
+
+	for (int i = 0; i < m_ChannelTextures[vPassIndex].size(); ++i) {
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	if (PassType::BUFFER == Type) {
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	}
 }
 
 //*********************************************************************************
@@ -89,6 +123,81 @@ void CGameRenderer::__renderScene()
 void CGameRenderer::__destroyScene()
 {
 
+}
+
+//*********************************************************************************
+//FUNCTION:
+void CGameRenderer::__initPasses()
+{
+	const SGameConfig& GameConfig = CGameConfig::getInstance()->getConfig();
+	const SSceneConfig& SceneConfig = GameConfig.sceneConfigMap.at(m_CurrentSceneID);
+
+	m_PassConfigSet = SceneConfig.passConfigSet;
+
+	m_ChannelTextures.clear();
+	m_RenderTextures.clear();
+	m_pShadingTechnique->removeAllProgram();
+
+	__initRenderTextures();
+
+	for (const SPassConfig& PassConfig : m_PassConfigSet)
+	{
+		__initShaders(PassConfig);
+		__initTextures(PassConfig);
+	}
+}
+
+//*********************************************************************************
+//FUNCTION:
+void CGameRenderer::__initShaders(const SPassConfig& vPassConfig)
+{
+	auto pShadingPass = new CProgram;
+	pShadingPass->addShader("res/shaders/core/drawQuad_vs.glsl", VERTEX_SHADER);
+	std::vector<std::string> ShaderFilesPaths = { "res/shaders/core/mainImage_fs.glsl", vPassConfig.shaderPath };
+	pShadingPass->addShader(ShaderFilesPaths, FRAGMENT_SHADER);
+	auto PassName = boost::str(boost::format("pass%1%") % vPassConfig.passID);
+	m_pShadingTechnique->addProgram(PassName, pShadingPass);
+}
+
+//*********************************************************************************
+//FUNCTION:
+void CGameRenderer::__initTextures(const SPassConfig& vPassConfig)
+{
+	std::vector<GLuint> Textures;
+	for (auto& Channel : vPassConfig.channels)
+	{
+		if (Channel.first.empty()) continue;
+		auto Type = Channel.first;
+		auto Value = Channel.second;
+
+		if (ChannelType::BUFFER == Type)
+		{
+			auto Index = atoi(Value.c_str());
+			Textures.push_back(m_RenderTextures[Index]);
+		}
+		else
+		{
+			auto Texture = util::loadTexture(Value.c_str());
+			Textures.push_back(Texture);
+		}
+	}
+
+	m_ChannelTextures.push_back(Textures);
+}
+
+//*********************************************************************************
+//FUNCTION:
+void CGameRenderer::__initRenderTextures()
+{
+	for (const SPassConfig& PassConfig : m_PassConfigSet)
+	{
+		auto Type = PassConfig.type;
+		if (PassType::BUFFER == Type)
+		{
+			auto Texture = util::setupTexture(m_WinSize.x, m_WinSize.y, GL_RGBA32F, GL_RGBA);
+			m_RenderTextures.push_back(Texture);
+		}
+	}
 }
 
 //*********************************************************************************
@@ -108,52 +217,32 @@ void CGameRenderer::__initRenderers()
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__initTextures()
+void CGameRenderer::__initBuffers()
 {
-	//TODO: release texture.
-	auto SceneConfig = CGameConfig::getInstance()->getConfig().sceneConfigMap.at(m_CurrentSceneID);
-	for (int i = 0; i < 4; ++i)
-	{
-		if (!SceneConfig.iChannel[i].empty())
-			m_ChannelTextures[i] = util::loadTexture(SceneConfig.iChannel[i].c_str());
-		else
-			m_ChannelTextures[i] = 0;
-	}
+	glGenFramebuffers(1, &m_CaptureFBO);
+	glGenRenderbuffers(1, &m_CaptureRBO);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_CaptureRBO);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__mainImagePass()
-{
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	auto MainImagePassName = boost::str(boost::format("mainImagePass%1%") % m_CurrentSceneID);
-	m_pShadingTechnique->enableShader(MainImagePassName);
-
-	__updateShaderUniforms4MainImagePass();
-	m_pQuadRenderer->draw();
-
-	m_pShadingTechnique->disableShader();
-
-	for (int i = 0; i < 4; ++i) {
-		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__updateShaderUniforms4MainImagePass()
+void CGameRenderer::__updateShaderUniforms4ImagePass(int vPassIndex)
 {
 	m_pShadingTechnique->updateStandShaderUniform("iResolution", glm::vec2(m_WinSize));
 	float Time = (float)(m_CurrentTime - m_StartTime) / CLOCKS_PER_SEC;
 	m_pShadingTechnique->updateStandShaderUniform("iTime", Time);
 
-	for (int i = 0; i < 4; ++i) {
-		if (m_ChannelTextures[i] != 0) {
+	for (int i = 0; i < m_ChannelTextures[vPassIndex].size(); ++i) {
+		auto Texture = m_ChannelTextures[vPassIndex][i];
+		if (Texture != 0) {
 			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, m_ChannelTextures[i]);
+			glBindTexture(GL_TEXTURE_2D, Texture);
 			std::string UniformName = boost::str(boost::format("iChannel%1%") % i);
 			m_pShadingTechnique->updateStandShaderUniform(UniformName, i);
 		}

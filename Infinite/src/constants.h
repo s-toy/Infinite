@@ -19,3 +19,15 @@ namespace Constant
    1.0f,  1.0f,  0.0f,  1.0f, 1.0f
 	};
 }
+
+namespace ChannelType
+{
+	static const std::string BUFFER = "buffer";
+	static const std::string TEXTURE = "texture";
+}
+
+namespace PassType
+{
+	static const std::string BUFFER = "buffer";
+	static const std::string IMAGE = "image";
+}

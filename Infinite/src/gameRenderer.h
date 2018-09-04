@@ -9,6 +9,7 @@
 class CShadingTechnique;
 class CMeshRenderer;
 class CPlayer;
+struct SPassConfig;
 
 class CGameRenderer : public COpenGLRenderer
 {
@@ -25,14 +26,18 @@ protected:
 private:
 	void __loadScene(unsigned int vSceneID);
 	void __renderScene();
+	void __renderPass(int vPassIndex);
 	void __destroyScene();
 
+	void __initPasses();
+	void __initShaders(const SPassConfig& vPassConfig);
+	void __initTextures(const SPassConfig& vPassConfig);
+	void __initRenderTextures();
 	void __initTechniques();
 	void __initRenderers();
-	void __initTextures();
+	void __initBuffers();
 
-	void __mainImagePass();
-	void __updateShaderUniforms4MainImagePass();
+	void __updateShaderUniforms4ImagePass(int vPassIndex);
 
 	void __destory();
 
@@ -45,7 +50,12 @@ private:
 	clock_t m_StartTime;
 	clock_t m_CurrentTime;
 
-	GLuint m_ChannelTextures[4];
-	unsigned int m_CurrentSceneID;
+	std::vector<GLuint> m_RenderTextures;
+	std::vector<std::vector<GLuint>> m_ChannelTextures;
+	std::vector<SPassConfig> m_PassConfigSet;
+	int m_CurrentSceneID;
 	glm::ivec2 m_WinSize;
+
+	GLuint m_CaptureFBO;
+	GLuint m_CaptureRBO;
 };

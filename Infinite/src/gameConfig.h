@@ -1,12 +1,23 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <unordered_map>
+
+struct SPassConfig
+{
+	int passID;
+	std::string type;
+	std::string shaderPath;
+	std::vector<std::pair<std::string, std::string>> channels;
+
+	SPassConfig() : passID(-1) {}
+};
 
 struct SSceneConfig
 {
-	std::string mainImageShader;
-	std::string iChannel[4];
+	std::string commonShaderPath;
+	std::vector<SPassConfig> passConfigSet;
 };
 
 struct SGameConfig
@@ -20,6 +31,8 @@ struct SGameConfig
 	int entrySceneID;
 
 	std::unordered_map<unsigned int, SSceneConfig> sceneConfigMap;
+
+	SGameConfig() : winWidth(0), winHeight(0), winPosX(0), winPosY(0), isFullscreen(false), entrySceneID(0) {}
 };
 
 class CGameConfig
@@ -34,11 +47,14 @@ public:
 		return m_pInstance;
 	}
 
-	void initConfig(const std::string& vConfigFileName);
+	void init(const std::string& vConfigFileName);
 	SGameConfig getConfig() const { return m_Config; }
 
 private:
 	CGameConfig();
+
+	void __parseGameConfig(const std::string& vConfigFileName);
+	SSceneConfig __parseSceneConfig(const std::string& vConfigFileName);
 
 private:
 	static CGameConfig* m_pInstance;

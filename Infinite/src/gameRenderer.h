@@ -3,6 +3,7 @@
 #include <string>
 #include <ctime>
 #include <vector>
+#include <unordered_map>
 #include <GLM/glm.hpp>
 #include "openglRenderer.h"
 
@@ -42,6 +43,8 @@ private:
 	void __destory();
 
 	static void __keyCallback(GLFWwindow* vWindow, int vKey, int vScancode, int vAction, int vMode);
+	static void __cursorPosCallback(GLFWwindow* vWindow, double vPosX, double vPosY);
+	static void __mouseButtonCallback(GLFWwindow* vWindow, int vButton, int vAction, int vMods);
 
 private:
 	CShadingTechnique* m_pShadingTechnique;
@@ -50,12 +53,13 @@ private:
 	clock_t m_StartTime;
 	clock_t m_CurrentTime;
 
-	std::vector<GLuint> m_RenderTextures;
-	std::vector<std::vector<GLuint>> m_ChannelTextures;
+	std::unordered_map<int, GLuint> m_RenderTextureMap;
+	std::vector<std::vector<GLuint>> m_ChannelTextureSet;
 	std::vector<SPassConfig> m_PassConfigSet;
-	int m_CurrentSceneID;
-	glm::ivec2 m_WinSize;
 
 	GLuint m_CaptureFBO;
 	GLuint m_CaptureRBO;
+
+	int m_CurrentSceneID;
+	glm::ivec2 m_WinSize;
 };

@@ -1,0 +1,14 @@
+{
+  "common": "",
+
+  "pass": [
+    {
+      "id": 0,
+      "type": "image",
+      "shaderPath": "res\\shaders\\custom\\Mario\\Image.glsl",
+      "channels": [
+
+      ]
+    }
+  ]
+}

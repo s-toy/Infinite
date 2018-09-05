@@ -8,7 +8,23 @@
   "scene": [
     {
       "id": 0,
-      "configFile": "res\\shaders\\custom\\IsPrime\\config.json"
+      "configFile": "res\\shaders\\custom\\Paint\\config.json"
+    },
+    {
+      "id": 1,
+      "configFile": "res\\shaders\\custom\\Mario\\config.json"
+    },
+    {
+      "id": 2,
+      "configFile": "res\\shaders\\custom\\Raymarch\\config.json"
+    },
+    {
+      "id": 3,
+      "configFile": "res\\shaders\\custom\\Balls\\config.json"
+    },
+    {
+      "id": 4,
+      "configFile": "res\\shaders\\custom\\BabyToy\\config.json"
     }
   ]
 }

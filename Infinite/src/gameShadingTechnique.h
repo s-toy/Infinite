@@ -5,8 +5,20 @@
 class CGameShadingTechnique : public CShadingTechnique
 {
 public:
-	CGameShadingTechnique();
 	virtual ~CGameShadingTechnique();
 
+	static CGameShadingTechnique* getInstance()
+	{
+		if (nullptr == m_pInstance)
+			m_pInstance = new CGameShadingTechnique();
+		return m_pInstance;
+	}
+
 	virtual void initTechniqueV() override;
+
+private:
+	CGameShadingTechnique();
+
+private:
+	static CGameShadingTechnique* m_pInstance;
 };

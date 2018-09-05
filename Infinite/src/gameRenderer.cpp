@@ -8,6 +8,8 @@
 #include "constants.h"
 #include "common.h"
 #include "gameConfig.h"
+#include "renderPass.h"
+#include "sceneManager.h"
 
 using namespace Constant;
 
@@ -18,7 +20,7 @@ namespace
 	glm::vec2 g_CursorPos;
 }
 
-CGameRenderer::CGameRenderer() : m_pShadingTechnique(nullptr), m_pQuadRenderer(nullptr), m_CurrentSceneID(-1)
+CGameRenderer::CGameRenderer() : m_pShadingTechnique(nullptr), m_pQuadRenderer(nullptr), m_pSceneManager(nullptr)
 {
 
 }
@@ -34,7 +36,9 @@ void CGameRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int
 {
 	COpenGLRenderer::initV(vWindowTitle, vWindowWidth, vWindowHeight, vWinPosX, vWinPosY, vIsFullscreen);
 
-	__initTechniques();
+	m_pShadingTechnique = CGameShadingTechnique::getInstance();
+	m_pShadingTechnique->initTechniqueV();
+
 	__initRenderers();
 	__initBuffers();
 
@@ -46,15 +50,15 @@ void CGameRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, int
 	glfwSetMouseButtonCallback(m_pWindow, __mouseButtonCallback);
 	glfwSetCursorPosCallback(m_pWindow, __cursorPosCallback);
 
-	__loadScene(Config.entrySceneID);
+	m_pSceneManager = CSceneManager::getInstance();
+	m_pSceneManager->initScene(Config.entrySceneID);
 }
 
 //*********************************************************************************
 //FUNCTION:
 void CGameRenderer::_updateV()
 {
-	m_CurrentTime = clock();
-	__renderScene();
+	m_pSceneManager->renderScene();
 }
 
 //*********************************************************************************
@@ -62,31 +66,7 @@ void CGameRenderer::_updateV()
 void CGameRenderer::_handleEventsV()
 {
 	for (int i = 0; i <= 9; ++i) {
-		if (g_Keys[GLFW_KEY_0 + i]) __loadScene(i);
-	}
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__loadScene(unsigned int vSceneID)
-{
-	if (m_CurrentSceneID == vSceneID) return;
-
-	m_CurrentSceneID = vSceneID;
-	m_StartTime = clock();
-
-	__initPasses();
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__renderScene()
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	for (int i = 0; i < m_PassConfigSet.size(); ++i)
-	{
-		__renderPass(i);
+		if (g_Keys[GLFW_KEY_0 + i]) m_pSceneManager->initScene(i);
 	}
 }
 
@@ -126,78 +106,6 @@ void CGameRenderer::__renderPass(int vPassIndex)
 
 //*********************************************************************************
 //FUNCTION:
-void CGameRenderer::__destroyScene()
-{
-
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__initPasses()
-{
-	const SGameConfig& GameConfig = CGameConfig::getInstance()->getConfig();
-	const SSceneConfig& SceneConfig = GameConfig.sceneConfigMap.at(m_CurrentSceneID);
-
-	m_PassConfigSet = SceneConfig.passConfigSet;
-	m_ChannelTextureSet.clear();
-	m_RenderTextureMap.clear();
-	m_pShadingTechnique->removeAllProgram();
-
-	__initRenderTextures();
-	for (const SPassConfig& PassConfig : m_PassConfigSet)
-	{
-		__initShaders(PassConfig);
-		__initTextures(PassConfig);
-	}
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__initShaders(const SPassConfig& vPassConfig)
-{
-	auto pShadingPass = new CProgram;
-	const SGameConfig& GameConfig = CGameConfig::getInstance()->getConfig();
-	const SSceneConfig& SceneConfig = GameConfig.sceneConfigMap.at(m_CurrentSceneID);
-
-	pShadingPass->addShader("res/shaders/core/drawQuad_vs.glsl", VERTEX_SHADER);
-	std::vector<std::string> ShaderFilesPaths = { "res/shaders/core/mainImage_fs.glsl" };
-	if (!SceneConfig.commonShaderPath.empty())
-		ShaderFilesPaths.push_back(SceneConfig.commonShaderPath);
-	ShaderFilesPaths.push_back(vPassConfig.shaderPath);
-
-	pShadingPass->addShader(ShaderFilesPaths, FRAGMENT_SHADER);
-	auto PassName = boost::str(boost::format("pass%1%") % vPassConfig.passID);
-	m_pShadingTechnique->addProgram(PassName, pShadingPass);
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__initTextures(const SPassConfig& vPassConfig)
-{
-	std::vector<GLuint> Textures;
-	for (auto& Channel : vPassConfig.channels)
-	{
-		if (Channel.first.empty()) continue;
-		auto Type = Channel.first;
-		auto Value = Channel.second;
-
-		if (ChannelType::BUFFER == Type)
-		{
-			auto Index = atoi(Value.c_str());
-			Textures.push_back(m_RenderTextureMap[Index]);
-		}
-		else
-		{
-			auto Texture = util::loadTexture(Value.c_str());
-			Textures.push_back(Texture);
-		}
-	}
-
-	m_ChannelTextureSet.push_back(Textures);
-}
-
-//*********************************************************************************
-//FUNCTION:
 void CGameRenderer::__initRenderTextures()
 {
 	for (auto& PassConfig : m_PassConfigSet)
@@ -210,14 +118,6 @@ void CGameRenderer::__initRenderTextures()
 			m_RenderTextureMap.insert(std::make_pair(ID, Texture));
 		}
 	}
-}
-
-//*********************************************************************************
-//FUNCTION:
-void CGameRenderer::__initTechniques()
-{
-	m_pShadingTechnique = new CGameShadingTechnique();
-	m_pShadingTechnique->initTechniqueV();
 }
 
 //*********************************************************************************
@@ -250,6 +150,8 @@ void CGameRenderer::__updateShaderUniforms4ImagePass(int vPassIndex)
 
 	float Time = (float)(m_CurrentTime - m_StartTime) / CLOCKS_PER_SEC;
 	m_pShadingTechnique->updateStandShaderUniform("iTime", Time);
+
+	m_pShadingTechnique->updateStandShaderUniform("iFrame", m_FrameCount);
 
 	for (int i = 0; i < m_ChannelTextureSet[vPassIndex].size(); ++i) {
 		auto Texture = m_ChannelTextureSet[vPassIndex][i];

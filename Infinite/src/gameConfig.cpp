@@ -27,9 +27,12 @@ void CGameConfig::init(const std::string& vConfigFileName)
 //FUNCTION:
 void CGameConfig::__parseGameConfig(const std::string& vConfigFileName)
 {
+	_ASSERTE(!vConfigFileName.empty());
+
 	ptree GameConfigTree;
 	read_json(vConfigFileName, GameConfigTree);
 
+	//TODO: 处理标签不存在的情况
 	m_Config.winName = GameConfigTree.get<std::string>("winName");
 
 	auto WinSizeConfig = GameConfigTree.get_child("winSize");
@@ -58,11 +61,13 @@ void CGameConfig::__parseGameConfig(const std::string& vConfigFileName)
 //FUNCTION:
 SSceneConfig CGameConfig::__parseSceneConfig(const std::string& vConfigFileName)
 {
+	_ASSERTE(!vConfigFileName.empty());
+
 	ptree SceneConfigTree;
 	read_json(vConfigFileName, SceneConfigTree);
 
 	SSceneConfig SceneConfig;
-	SceneConfig.commonShaderPath = SceneConfigTree.get<std::string>("common");
+	SceneConfig.commonShaderPath = SceneConfigTree.get_optional<std::string>("common").get_value_or("");
 
 	ptree PassConfigTree = SceneConfigTree.get_child("pass");
 	BOOST_FOREACH(ptree::value_type& E, PassConfigTree)
@@ -74,13 +79,15 @@ SSceneConfig CGameConfig::__parseSceneConfig(const std::string& vConfigFileName)
 		PassConfig.type = Tree.get<std::string>("type");
 		PassConfig.shaderPath = Tree.get<std::string>("shaderPath");
 
-		ptree ChannelTree = Tree.get_child("channels");
-		BOOST_FOREACH(ptree::value_type& E, ChannelTree)
-		{
-			ptree Tree = E.second;
-			auto Type = Tree.get<std::string>("type");
-			auto Value = Tree.get<std::string>("value");
-			PassConfig.channels.push_back(std::make_pair(Type, Value));
+		auto ChannelItem = Tree.get_child_optional("channels");
+		if (ChannelItem) {
+			BOOST_FOREACH(ptree::value_type& E, ChannelItem.value())
+			{
+				ptree Tree = E.second;
+				auto Type = Tree.get<std::string>("type");
+				auto Value = Tree.get<std::string>("value");
+				PassConfig.channels.push_back(std::make_pair(Type, Value));
+			}
 		}
 
 		SceneConfig.passConfigSet.push_back(PassConfig);

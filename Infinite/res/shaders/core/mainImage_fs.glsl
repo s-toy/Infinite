@@ -1,9 +1,13 @@
 #version 430 core
 
-uniform vec2 iResolution = vec2(1.0);
 uniform float iTime;
+
+uniform int iFrame;
+
+uniform vec2 iResolution = vec2(1.0);
 uniform vec4 iDate;
 uniform vec4 iMouse;
+
 uniform sampler2D iChannel0;
 uniform sampler2D iChannel1;
 uniform sampler2D iChannel2;

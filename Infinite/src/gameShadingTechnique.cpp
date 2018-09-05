@@ -2,6 +2,8 @@
 #include <boost/format.hpp>
 #include "gameConfig.h"
 
+CGameShadingTechnique* CGameShadingTechnique::m_pInstance = nullptr;
+
 CGameShadingTechnique::CGameShadingTechnique()
 {
 }

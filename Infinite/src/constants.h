@@ -6,7 +6,9 @@
 
 namespace Constant
 {
-	static const std::string GAME_CONFIG_FILE_NAME = "gameConfig.json";
+	static const std::string GAME_CONFIG_FILE_PATH = "gameConfig.json";
+	static const std::string DRAW_QUAD_SHADER_PATH = "res/shaders/core/drawQuad_vs.glsl";
+	static const std::string MAIN_IMAGE_SHADER_PATH = "res/shaders/core/mainImage_fs.glsl";
 
 	static const float PI = 3.1415926;
 
@@ -24,10 +26,17 @@ namespace ChannelType
 {
 	static const std::string BUFFER = "buffer";
 	static const std::string TEXTURE = "texture";
+	static const std::string CUBE_MAP = "cubeMap";
+	static const std::string KEYBOARD = "keyboard";
+	static const std::string SOUND = "sound";
+	static const std::string SOUND_CLOUD = "soundCloud";
+	static const std::string VIDEO = "video";
 }
 
 namespace PassType
 {
 	static const std::string BUFFER = "buffer";
 	static const std::string IMAGE = "image";
+	static const std::string SOUND = "sound";
+	static const std::string CUBE_MAP = "cubeMap";
 }

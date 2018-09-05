@@ -12,6 +12,8 @@ struct SPassConfig
 	std::vector<std::pair<std::string, std::string>> channels;
 
 	SPassConfig() : passID(-1) {}
+
+	bool isValid() const { return true; } //TODO: 验证配置是否有效
 };
 
 struct SSceneConfig

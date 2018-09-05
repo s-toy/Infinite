@@ -3,13 +3,13 @@
 #include <string>
 #include <ctime>
 #include <vector>
-#include <unordered_map>
 #include <GLM/glm.hpp>
 #include "openglRenderer.h"
 
+class CSceneManager;
 class CShadingTechnique;
 class CMeshRenderer;
-class CPlayer;
+class CRenderPass;
 struct SPassConfig;
 
 class CGameRenderer : public COpenGLRenderer
@@ -25,16 +25,9 @@ protected:
 	virtual void _handleEventsV() override;
 
 private:
-	void __loadScene(unsigned int vSceneID);
-	void __renderScene();
 	void __renderPass(int vPassIndex);
-	void __destroyScene();
 
-	void __initPasses();
-	void __initShaders(const SPassConfig& vPassConfig);
-	void __initTextures(const SPassConfig& vPassConfig);
 	void __initRenderTextures();
-	void __initTechniques();
 	void __initRenderers();
 	void __initBuffers();
 
@@ -48,18 +41,13 @@ private:
 
 private:
 	CShadingTechnique* m_pShadingTechnique;
+	CSceneManager* m_pSceneManager;
+
 	CMeshRenderer* m_pQuadRenderer;
-
-	clock_t m_StartTime;
-	clock_t m_CurrentTime;
-
-	std::unordered_map<int, GLuint> m_RenderTextureMap;
-	std::vector<std::vector<GLuint>> m_ChannelTextureSet;
-	std::vector<SPassConfig> m_PassConfigSet;
 
 	GLuint m_CaptureFBO;
 	GLuint m_CaptureRBO;
+	GLuint m_KeyboardTex;
 
-	int m_CurrentSceneID;
 	glm::ivec2 m_WinSize;
 };

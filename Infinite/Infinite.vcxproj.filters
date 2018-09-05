@@ -31,6 +31,9 @@
     <Filter Include="Shader Files\custom\body">
       <UniqueIdentifier>{71610492-3306-4015-88a9-859e172e2fcf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader Files\custom\Paratrooper">
+      <UniqueIdentifier>{098b5cc9-f147-48b4-a302-7af7ad2abcac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -71,6 +74,12 @@
     </ClCompile>
     <ClCompile Include="src\program.cpp">
       <Filter>Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderPass.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sceneManager.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +125,12 @@
     <ClInclude Include="src\program.h">
       <Filter>Source Files\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderPass.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sceneManager.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\core\drawQuad_vs.glsl">
@@ -151,6 +166,9 @@
     </None>
     <None Include="res\shaders\custom\Paint\config.json">
       <Filter>Shader Files\custom</Filter>
+    </None>
+    <None Include="res\shaders\custom\Paratrooper\config.json">
+      <Filter>Shader Files\custom\Paratrooper</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
   "winSize": { "width": 1600, "height": 900 },
   "winPos": { "x": 100, "y": 50 },
   "fullScreen": false,
-  "entrySceneID":  0,
+  "entrySceneID":  3,
 
   "scene": [
     {
@@ -20,7 +20,7 @@
     },
     {
       "id": 3,
-      "configFile": "res\\shaders\\custom\\Balls\\config.json"
+      "configFile": "res\\shaders\\custom\\KeyboardTest\\config.json"
     },
     {
       "id": 4,

@@ -7,7 +7,7 @@
       "type": "buffer",
       "shaderPath": "res\\shaders\\custom\\Paratrooper\\BufferA.glsl",
       "channels": [
-        { "type": "texture", "value": "res//textures/noise.png" },
+        { "type": "keyboard", "value": "" },
         { "type": "buffer", "value": "0" }		
       ]
     },

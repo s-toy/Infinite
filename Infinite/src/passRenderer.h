@@ -21,6 +21,7 @@ private:
 	void __initShaders();
 	void __initBuffers();
 
+	void __updateKeyboardTexture();
 	void __updateShaderUniforms4ImagePass();
 
 	void __destroy();
@@ -29,10 +30,10 @@ private:
 	SPassConfig m_Config;
 
 	std::vector<GLuint> m_TextureSet;
+	GLuint m_KeyboardTex;
 
 	GLuint m_CaptureFBO;
 	GLuint m_CaptureRBO;
-	GLuint m_RenderTexture;
 
 	CGameShadingTechnique* m_pShadingTechnique;
 	CSceneRenderer* m_pSceneRenderer;

@@ -127,7 +127,7 @@ GLuint util::setupTexture(unsigned int vWidth, unsigned int vHeight, GLint vInte
 	GLuint texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, vInternalFormat, vWidth, vHeight, 0, vFormat, GL_FLOAT, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, vInternalFormat, vWidth, vHeight, 0, vFormat, GL_FLOAT, nullptr);
 
 	if (vGenerateMipMap == false)
 	{

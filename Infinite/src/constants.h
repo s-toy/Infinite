@@ -20,9 +20,11 @@ namespace Constant
    1.0f, -1.0f,  0.0f,  1.0f, 0.0f,
    1.0f,  1.0f,  0.0f,  1.0f, 1.0f
 	};
+
+	const glm::ivec2 KEYBORAD_TEX_SIZE = { 256, 3 };
 }
 
-namespace ChannelType
+namespace EChannelType
 {
 	static const std::string BUFFER = "buffer";
 	static const std::string TEXTURE = "texture";
@@ -33,7 +35,7 @@ namespace ChannelType
 	static const std::string VIDEO = "video";
 }
 
-namespace PassType
+namespace EPassType
 {
 	static const std::string BUFFER = "buffer";
 	static const std::string IMAGE = "image";

@@ -46,6 +46,7 @@ void CSceneRenderer::loadScene(int vSceneID)
 	if (SceneConfigMap.find(vSceneID) == SceneConfigMap.end()) return;
 	m_Config = SceneConfigMap.at(vSceneID);
 
+	m_pShadingTechnique->initV(); //HACK: 这里不需要重新init
 	__initRenderTextures();
 	__initRenderPasses();
 }
@@ -91,7 +92,7 @@ void CSceneRenderer::__initRenderTextures()
 	{
 		auto PassID = PassConfig.passID;
 		auto Type = PassConfig.type;
-		if (PassType::BUFFER == Type)
+		if (EPassType::BUFFER == Type)
 		{
 			auto TextureID = util::setupTexture(WinSize.x, WinSize.y, GL_RGBA32F, GL_RGBA);
 			m_ID2RenderTextureMap.insert(std::make_pair(PassID, TextureID));

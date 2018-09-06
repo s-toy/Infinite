@@ -6,5 +6,5 @@ public:
 	CTechnique();
 	virtual ~CTechnique();
 
-	virtual void initTechniqueV() = 0;
+	virtual void initV() = 0;
 };

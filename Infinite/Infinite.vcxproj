@@ -28,8 +28,8 @@
     <ClCompile Include="src\meshRenderer.cpp" />
     <ClCompile Include="src\openglRenderer.cpp" />
     <ClCompile Include="src\program.cpp" />
-    <ClCompile Include="src\renderPass.cpp" />
-    <ClCompile Include="src\sceneManager.cpp" />
+    <ClCompile Include="src\passRenderer.cpp" />
+    <ClCompile Include="src\sceneRenderer.cpp" />
     <ClCompile Include="src\shadingTechnique.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\technique.cpp" />
@@ -46,8 +46,8 @@
     <ClInclude Include="src\meshRenderer.h" />
     <ClInclude Include="src\openglRenderer.h" />
     <ClInclude Include="src\program.h" />
-    <ClInclude Include="src\renderPass.h" />
-    <ClInclude Include="src\sceneManager.h" />
+    <ClInclude Include="src\passRenderer.h" />
+    <ClInclude Include="src\sceneRenderer.h" />
     <ClInclude Include="src\shadingTechnique.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\technique.h" />
@@ -72,7 +72,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F46EF3BB-3476-4E0F-9B1F-7FFE095CD45C}</ProjectGuid>
     <RootNamespace>Infinite</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

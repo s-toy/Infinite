@@ -10,7 +10,7 @@ public:
 	CShadingTechnique();
 	virtual ~CShadingTechnique();
 
-	virtual void initTechniqueV() override {};
+	virtual void initV() override {};
 
 	void addProgram(const std::string& vProgramSig, CProgram* vProgram);
 	void removeProgram(const std::string& vProgramSig);

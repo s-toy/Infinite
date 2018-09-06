@@ -33,7 +33,7 @@ void COpenGLRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, i
 
 //*********************************************************************************
 //FUNCTION:
-void COpenGLRenderer::runV()
+int COpenGLRenderer::runV()
 {
 	while (!glfwWindowShouldClose(m_pWindow))
 	{
@@ -49,6 +49,8 @@ void COpenGLRenderer::runV()
 		glfwSwapBuffers(m_pWindow);
 	}
 	glfwTerminate();
+
+	return 0;
 }
 
 //*********************************************************************************

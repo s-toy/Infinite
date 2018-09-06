@@ -75,10 +75,10 @@
     <ClCompile Include="src\program.cpp">
       <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderPass.cpp">
+    <ClCompile Include="src\sceneRenderer.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\sceneManager.cpp">
+    <ClCompile Include="src\passRenderer.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,10 +125,10 @@
     <ClInclude Include="src\program.h">
       <Filter>Source Files\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderPass.h">
+    <ClInclude Include="src\sceneRenderer.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\sceneManager.h">
+    <ClInclude Include="src\passRenderer.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
   </ItemGroup>

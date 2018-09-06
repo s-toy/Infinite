@@ -4,18 +4,24 @@
 #include "gameConfig.h"
 
 class CGameShadingTechnique;
+class CSceneRenderer;
+class CMeshRenderer;
 
-class CRenderPass
+class CPassRenderer
 {
 public:
-	CRenderPass();
-	virtual ~CRenderPass();
+	CPassRenderer();
+	virtual ~CPassRenderer();
 
 	void init(const SPassConfig& vPassConfig);
+	void renderPass();
 
 private:
 	void __initTextures();
 	void __initShaders();
+	void __initBuffers();
+
+	void __updateShaderUniforms4ImagePass();
 
 	void __destroy();
 
@@ -23,7 +29,12 @@ private:
 	SPassConfig m_Config;
 
 	std::vector<GLuint> m_TextureSet;
+
+	GLuint m_CaptureFBO;
+	GLuint m_CaptureRBO;
 	GLuint m_RenderTexture;
 
 	CGameShadingTechnique* m_pShadingTechnique;
+	CSceneRenderer* m_pSceneRenderer;
+	CMeshRenderer* m_pQuadRenderer;
 };

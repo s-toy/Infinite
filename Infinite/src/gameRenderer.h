@@ -6,32 +6,38 @@
 #include <GLM/glm.hpp>
 #include "openglRenderer.h"
 
-class CSceneManager;
+class CSceneRenderer;
 class CShadingTechnique;
 class CMeshRenderer;
-class CRenderPass;
+class CPassRenderer;
 struct SPassConfig;
 
 class CGameRenderer : public COpenGLRenderer
 {
 public:
-	CGameRenderer();
 	virtual ~CGameRenderer();
 
+	static CGameRenderer* getInstance()
+	{
+		if (nullptr == m_pInstance)
+			m_pInstance = new CGameRenderer();
+		return m_pInstance;
+	}
+
 	virtual void initV(const std::string& vWindowTitle, int vWindowWidth, int vWindowHeight, int vWinPosX, int vWinPosY, bool vIsFullscreen = false) override;
+
+	const glm::ivec2& getWinSize() const { return m_WinSize; }
+
+	static bool isKeyPressed(int vKeyCode);
+	static bool isButtonPressed(int vButtonCode);
+	static const glm::vec2& getCursorPos();
 
 protected:
 	virtual void _updateV() override;
 	virtual void _handleEventsV() override;
 
 private:
-	void __renderPass(int vPassIndex);
-
-	void __initRenderTextures();
-	void __initRenderers();
-	void __initBuffers();
-
-	void __updateShaderUniforms4ImagePass(int vPassIndex);
+	CGameRenderer();
 
 	void __destory();
 
@@ -40,14 +46,10 @@ private:
 	static void __mouseButtonCallback(GLFWwindow* vWindow, int vButton, int vAction, int vMods);
 
 private:
+	static CGameRenderer* m_pInstance;
+
 	CShadingTechnique* m_pShadingTechnique;
-	CSceneManager* m_pSceneManager;
-
-	CMeshRenderer* m_pQuadRenderer;
-
-	GLuint m_CaptureFBO;
-	GLuint m_CaptureRBO;
-	GLuint m_KeyboardTex;
+	CSceneRenderer* m_pSceneRenderer;
 
 	glm::ivec2 m_WinSize;
 };

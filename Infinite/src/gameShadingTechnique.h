@@ -14,7 +14,7 @@ public:
 		return m_pInstance;
 	}
 
-	virtual void initTechniqueV() override;
+	virtual void initV() override;
 
 private:
 	CGameShadingTechnique();

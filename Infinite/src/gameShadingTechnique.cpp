@@ -14,9 +14,9 @@ CGameShadingTechnique::~CGameShadingTechnique()
 
 //*********************************************************************************
 //FUNCTION:
-void CGameShadingTechnique::initTechniqueV()
+void CGameShadingTechnique::initV()
 {
-	CShadingTechnique::initTechniqueV();
+	CShadingTechnique::initV();
 
 	auto pTextureCopyPass = new CProgram;
 	pTextureCopyPass->addShader("res/shaders/core/drawQuad_vs.glsl", VERTEX_SHADER);

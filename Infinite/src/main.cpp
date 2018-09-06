@@ -4,16 +4,12 @@
 
 int main()
 {
-	CGameRenderer* pRenderer = new CGameRenderer();
-	_ASSERT(pRenderer);
+	auto pGameConfig = CGameConfig::getInstance();
+	pGameConfig->init(Constant::GAME_CONFIG_FILE_PATH);
+	auto Config = pGameConfig->getConfig();
 
-	CGameConfig::getInstance()->init(Constant::GAME_CONFIG_FILE_PATH);
-	auto Config = CGameConfig::getInstance()->getConfig();
+	auto pGameRenderer = CGameRenderer::getInstance();
+	pGameRenderer->initV(Config.winName, Config.winWidth, Config.winHeight, Config.winPosY, Config.winPosY, Config.isFullscreen);
 
-	pRenderer->initV(Config.winName, Config.winWidth, Config.winHeight, Config.winPosY, Config.winPosY, Config.isFullscreen);
-	pRenderer->runV();
-
-	delete pRenderer;
-
-	return 0;
+	return pGameRenderer->runV();
 }

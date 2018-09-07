@@ -16,7 +16,7 @@ using namespace Constant;
 namespace
 {
 	bool g_Buttons[3];
-	bool g_Keys[1024];
+	bool g_Keys[KEYBORAD_TEX_WIDTH];
 	glm::vec2 g_CursorPos;
 }
 
@@ -104,7 +104,7 @@ void CGameRenderer::__keyCallback(GLFWwindow* vWindow, int vKey, int vScancode, 
 {
 	if (vKey == GLFW_KEY_ESCAPE && vAction == GLFW_PRESS)
 		glfwSetWindowShouldClose(vWindow, GL_TRUE);
-	if (vKey >= 0 && vKey < 1024)
+	if (vKey >= 0 && vKey < KEYBORAD_TEX_WIDTH)
 	{
 		if (vAction == GLFW_PRESS)
 			g_Keys[vKey] = true;

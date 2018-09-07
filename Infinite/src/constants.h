@@ -20,8 +20,6 @@ namespace Constant
    1.0f, -1.0f,  0.0f,  1.0f, 0.0f,
    1.0f,  1.0f,  0.0f,  1.0f, 1.0f
 	};
-
-	const glm::ivec2 KEYBORAD_TEX_SIZE = { 256, 3 };
 }
 
 namespace EChannelType
@@ -42,3 +40,6 @@ namespace EPassType
 	static const std::string SOUND = "sound";
 	static const std::string CUBE_MAP = "cubeMap";
 }
+
+#define KEYBORAD_TEX_WIDTH 512
+#define KEYBORAD_TEX_HEIGHT 3

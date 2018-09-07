@@ -1,6 +1,4 @@
 {
-  "common": "res\\shaders\\custom\\Ladybug\\Common.glsl",
-
   "pass": [
     {
       "id": 0,

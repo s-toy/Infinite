@@ -1,0 +1,9 @@
+{
+  "pass": [
+    {
+      "id": 0,
+      "type": "image",
+      "shaderPath": "res\\shaders\\custom\\Woman\\Image.glsl"
+    }
+  ]
+}

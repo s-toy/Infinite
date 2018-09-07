@@ -93,8 +93,7 @@ void CPassRenderer::__initTextures()
 			m_TextureSet.push_back(TextureID);
 		}
 		else if (EChannelType::KEYBOARD == ChannelType) {
-			auto TexSize = Constant::KEYBORAD_TEX_SIZE;
-			m_KeyboardTex = util::setupTexture(TexSize.x, TexSize.y, GL_RED, GL_RED);
+			m_KeyboardTex = util::setupTexture(KEYBORAD_TEX_WIDTH, KEYBORAD_TEX_HEIGHT, GL_RED, GL_RED);
 			_ASSERTE(m_KeyboardTex > 0);
 			m_TextureSet.push_back(m_KeyboardTex);
 		}
@@ -139,27 +138,17 @@ void CPassRenderer::__updateKeyboardTexture()
 {
 	if (0 == m_KeyboardTex) return;
 
-	glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
-	const auto& TexSize = Constant::KEYBORAD_TEX_SIZE;
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, TexSize.x, TexSize.y);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_KeyboardTex, 0);
-
-	std::string ProgramSig = "renderKeyEvent2TexPass";
-	m_pShadingTechnique->enableProgram(ProgramSig);
-
-	const int ArraySize = 256 * 3;
-	GLfloat KeyState[ArraySize] = { 0.0 };
-	for (int i = 0; i < TexSize.x; ++i) {
-		if (CGameRenderer::isKeyPressed(i)) KeyState[i * 3] = 1.0;
+	const int Width = KEYBORAD_TEX_WIDTH, Height = KEYBORAD_TEX_HEIGHT;
+	GLfloat ImageData[Width*Height] = { 0.0f };
+	for (int i = 0; i < Width; ++i) {
+		if (CGameRenderer::isKeyPressed(i)) {
+			ImageData[i] = 1.0f;
+		}
 	}
 
-	GLint Loc = glGetUniformLocation(m_pShadingTechnique->getProgramID(ProgramSig), "uKeyState");
-	glUniform1fv(Loc, ArraySize, KeyState);
-	m_pQuadRenderer->draw();
-	m_pShadingTechnique->disableProgram();
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, m_KeyboardTex);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, Width, Height, GL_RED, GL_FLOAT, ImageData);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 //*********************************************************************************
@@ -176,8 +165,15 @@ void CPassRenderer::__updateShaderUniforms4ImagePass()
 
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, TextureID);
+
 		std::string UniformName = boost::str(boost::format("iChannel%1%") % i);
 		m_pShadingTechnique->updateStandShaderUniform(UniformName, i);
+
+		GLint Width, Height;
+		glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &Width);
+		glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &Height);
+		UniformName = boost::str(boost::format("iChannelResolution[%1%]") % i);
+		m_pShadingTechnique->updateStandShaderUniform(UniformName, glm::vec3(Width, Height, 0));
 	}
 
 	glm::vec2 MousePos = glm::vec2(0);

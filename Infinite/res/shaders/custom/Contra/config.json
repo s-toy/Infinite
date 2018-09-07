@@ -1,0 +1,47 @@
+{
+  "pass": [
+    {
+      "id": 0,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\custom\\Contra\\BufferA.glsl",
+      "channels": [
+        { "type": "buffer", "value": "0" },
+        { "type": "keyboard", "value": "" }	
+      ]
+    },
+	{
+      "id": 1,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\custom\\Contra\\BufferB.glsl",
+      "channels": [
+        { "type": "buffer", "value": "0" }
+      ]
+    },
+	{
+      "id": 2,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\custom\\Contra\\BufferC.glsl",
+      "channels": [
+        { "type": "buffer", "value": "0" },
+		{ "type": "buffer", "value": "1" }
+      ]
+    },
+	{
+      "id": 3,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\custom\\Contra\\BufferD.glsl",
+      "channels": [
+        { "type": "buffer", "value": "0" },
+		{ "type": "buffer", "value": "2" }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "image",
+      "shaderPath": "res\\shaders\\custom\\Contra\\Image.glsl",
+      "channels": [
+        { "type": "buffer", "value": "3" }
+      ]
+    }
+  ]
+}

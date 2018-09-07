@@ -11,14 +11,14 @@
 //
 
 const int KEY_SPACE = 32;
-const int KEY_LEFT  = 37;
-const int KEY_UP    = 38;
-const int KEY_RIGHT = 39;
-const int KEY_DOWN  = 40;
 const int KEY_A     = 65;
 const int KEY_D     = 68;
 const int KEY_S     = 83;
 const int KEY_W     = 87;
+const int KEY_RIGHT = 262;
+const int KEY_LEFT  = 263;
+const int KEY_DOWN  = 264;
+const int KEY_UP    = 265;
 
 bool KP(int key) {
 	return texelFetch( iChannel0, ivec2(key, 0), 0 ).x > 0.0;

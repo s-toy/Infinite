@@ -1,14 +1,9 @@
 {
-  "common": "res\\shaders\\custom\\Paint\\Common.glsl",
-
   "pass": [
     {
       "id": 0,
       "type": "buffer",
-      "shaderPath": "res\\shaders\\custom\\IsPrime\\BufferA.glsl",
-      "channels": [
-
-      ]
+      "shaderPath": "res\\shaders\\custom\\IsPrime\\BufferA.glsl"
     },
     {
       "id": 1,

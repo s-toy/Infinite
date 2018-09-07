@@ -34,6 +34,9 @@
     <Filter Include="Shader Files\custom\Paratrooper">
       <UniqueIdentifier>{098b5cc9-f147-48b4-a302-7af7ad2abcac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader Files\custom\Contra">
+      <UniqueIdentifier>{770d6559-0db7-428b-8671-464a23cf4c2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -172,6 +175,9 @@
     </None>
     <None Include="res\shaders\core\renderKeyEvent2Texture_fs.glsl">
       <Filter>Shader Files\core</Filter>
+    </None>
+    <None Include="res\shaders\custom\Contra\config.json">
+      <Filter>Shader Files\custom\Contra</Filter>
     </None>
   </ItemGroup>
 </Project>

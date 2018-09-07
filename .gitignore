@@ -269,3 +269,5 @@ lua-5.3.3/
 */Release.win32
 *.dll
 *.lib
+
+ReleaseVersion/

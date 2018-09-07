@@ -8,7 +8,7 @@
 #include "gameRenderer.h"
 #include "meshRenderer.h"
 
-CPassRenderer::CPassRenderer() : m_pShadingTechnique(nullptr), m_pSceneRenderer(nullptr), m_pQuadRenderer(nullptr), m_KeyboardTex(0)
+CPassRenderer::CPassRenderer() : m_pShadingTechnique(nullptr), m_pSceneRenderer(nullptr), m_pQuadRenderer(nullptr), m_KeyboardTex(0), m_RenderTex(0)
 {
 
 }
@@ -27,8 +27,8 @@ void CPassRenderer::init(const SPassConfig& vPassConfig)
 	m_pSceneRenderer = CSceneRenderer::getInstance();
 	m_pQuadRenderer = new CMeshRenderer(Constant::QUAD_VERTICES, sizeof(Constant::QUAD_VERTICES));
 
-	__initBuffers();
 	__initTextures();
+	__initBuffers();
 	__initShaders();
 }
 
@@ -42,13 +42,8 @@ void CPassRenderer::renderPass()
 	if (EPassType::BUFFER == Type) {
 		glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
 		glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
-		auto WinSize = m_pSceneRenderer->getWinSize();
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, WinSize.x, WinSize.y);
-		auto TextureID = m_pSceneRenderer->getRenderTexture(PassID);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, TextureID, 0);
 	}
-
-	if (EPassType::IMAGE == Type) {
+	else if (EPassType::IMAGE == Type) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
@@ -83,7 +78,7 @@ void CPassRenderer::__initTextures()
 
 		if (EChannelType::BUFFER == ChannelType) {
 			auto Index = atoi(ChannelValue.c_str());
-			auto TextureID = m_pSceneRenderer->getRenderTexture(Index);
+			auto TextureID = m_pSceneRenderer->getRenderTextureByPassID(Index);
 			_ASSERTE(TextureID > 0);
 			m_TextureSet.push_back(TextureID);
 		}
@@ -93,7 +88,7 @@ void CPassRenderer::__initTextures()
 			m_TextureSet.push_back(TextureID);
 		}
 		else if (EChannelType::KEYBOARD == ChannelType) {
-			m_KeyboardTex = util::setupTexture(KEYBORAD_TEX_WIDTH, KEYBORAD_TEX_HEIGHT, GL_RED, GL_RED);
+			m_KeyboardTex = util::setupTexture2D(KEYBORAD_TEX_WIDTH, KEYBORAD_TEX_HEIGHT, GL_RED, GL_RED, GL_UNSIGNED_BYTE, GL_NEAREST);
 			_ASSERTE(m_KeyboardTex > 0);
 			m_TextureSet.push_back(m_KeyboardTex);
 		}
@@ -121,12 +116,20 @@ void CPassRenderer::__initShaders()
 //FUNCTION:
 void CPassRenderer::__initBuffers()
 {
+	if (EPassType::BUFFER != m_Config.type) return;
+
 	glGenFramebuffers(1, &m_CaptureFBO);
 	glGenRenderbuffers(1, &m_CaptureRBO);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, m_CaptureFBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_CaptureRBO);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_CaptureRBO);
+
+	auto WinSize = m_pSceneRenderer->getWinSize();
+	m_RenderTex = m_pSceneRenderer->getRenderTextureByPassID(m_Config.passID);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, WinSize.x, WinSize.y);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_RenderTex, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -139,15 +142,15 @@ void CPassRenderer::__updateKeyboardTexture()
 	if (0 == m_KeyboardTex) return;
 
 	const int Width = KEYBORAD_TEX_WIDTH, Height = KEYBORAD_TEX_HEIGHT;
-	GLfloat ImageData[Width*Height] = { 0.0f };
+	GLubyte ImageData[Width*Height] = { 0 };
 	for (int i = 0; i < Width; ++i) {
 		if (CGameRenderer::isKeyPressed(i)) {
-			ImageData[i] = 1.0f;
+			ImageData[i] = 0xff;
 		}
 	}
 
 	glBindTexture(GL_TEXTURE_2D, m_KeyboardTex);
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, Width, Height, GL_RED, GL_FLOAT, ImageData);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, Width, Height, GL_RED, GL_UNSIGNED_BYTE, ImageData);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
@@ -157,6 +160,7 @@ void CPassRenderer::__updateShaderUniforms4ImagePass()
 {
 	m_pShadingTechnique->updateStandShaderUniform("iResolution", glm::vec2(m_pSceneRenderer->getWinSize()));
 	m_pShadingTechnique->updateStandShaderUniform("iTime", m_pSceneRenderer->getTime());
+	m_pShadingTechnique->updateStandShaderUniform("iTimeDelta", CGameRenderer::getInstance()->getDeltaTime());
 	m_pShadingTechnique->updateStandShaderUniform("iFrame", m_pSceneRenderer->getFrameCount());
 
 	for (int i = 0; i < m_TextureSet.size(); ++i) {
@@ -166,7 +170,7 @@ void CPassRenderer::__updateShaderUniforms4ImagePass()
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, TextureID);
 
-		std::string UniformName = boost::str(boost::format("iChannel%1%") % i);
+		std::string UniformName = boost::str(boost::format("iChannel[%1%]") % i);
 		m_pShadingTechnique->updateStandShaderUniform(UniformName, i);
 
 		GLint Width, Height;

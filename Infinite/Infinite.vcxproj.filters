@@ -37,6 +37,9 @@
     <Filter Include="Shader Files\custom\Contra">
       <UniqueIdentifier>{770d6559-0db7-428b-8671-464a23cf4c2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader Files\custom\Pacman">
+      <UniqueIdentifier>{5ea91b4a-04d4-4bb7-a2d0-6c690a3c00a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -178,6 +181,9 @@
     </None>
     <None Include="res\shaders\custom\Contra\config.json">
       <Filter>Shader Files\custom\Contra</Filter>
+    </None>
+    <None Include="res\shaders\custom\Pacman\config.json">
+      <Filter>Shader Files\custom\Pacman</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -104,6 +104,7 @@ void CGameRenderer::__keyCallback(GLFWwindow* vWindow, int vKey, int vScancode, 
 {
 	if (vKey == GLFW_KEY_ESCAPE && vAction == GLFW_PRESS)
 		glfwSetWindowShouldClose(vWindow, GL_TRUE);
+
 	if (vKey >= 0 && vKey < KEYBORAD_TEX_WIDTH)
 	{
 		if (vAction == GLFW_PRESS)

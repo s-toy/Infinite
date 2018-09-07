@@ -27,6 +27,7 @@ public:
 	virtual void initV(const std::string& vWindowTitle, int vWindowWidth, int vWindowHeight, int vWinPosX, int vWinPosY, bool vIsFullscreen = false) override;
 
 	const glm::ivec2& getWinSize() const { return m_WinSize; }
+	float getDeltaTime() const { return m_DeltaTime; }
 
 	static bool isKeyPressed(int vKeyCode);
 	static bool isButtonPressed(int vButtonCode);

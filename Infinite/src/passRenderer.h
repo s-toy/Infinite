@@ -31,6 +31,7 @@ private:
 
 	std::vector<GLuint> m_TextureSet;
 	GLuint m_KeyboardTex;
+	GLuint m_RenderTex;
 
 	GLuint m_CaptureFBO;
 	GLuint m_CaptureRBO;

@@ -26,12 +26,12 @@ public:
 	void loadScene(int vSceneID);
 	void renderScene();
 
-	int getCurrentSceneID() const { return m_CurrentSceneID; }
 	const SSceneConfig& getSceneConfig() const { return m_Config; }
-	GLuint getRenderTexture(int vPassID) const { return m_ID2RenderTextureMap.at(vPassID); }
+	const glm::ivec2& getWinSize() const { return m_WinSize; }
+	GLuint getRenderTextureByPassID(int vPassID) const { return m_ID2RenderTextureMap.at(vPassID); }
 	float getTime() const { return (float)(m_CurrentTime - m_StartTime) / CLOCKS_PER_SEC; }
 	int getFrameCount() const { return m_FrameCount; }
-	const glm::ivec2& getWinSize() const { return m_WinSize; }
+	int getCurrentSceneID() const { return m_CurrentSceneID; }
 
 private:
 	CSceneRenderer();

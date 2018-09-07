@@ -11,5 +11,6 @@ namespace util
 
 	GLuint loadTexture(const char *vPath);
 
-	GLuint setupTexture(unsigned int vWidth, unsigned int vHeight, GLint vInternalFormat = GL_RGB32F, GLenum vFormat = GL_RGB, bool vGenerateMipMap = GL_FALSE);
+	GLuint setupTexture2D(unsigned int vWidth, unsigned int vHeight, GLint vInternalFormat = GL_RGB32F, GLenum vFormat = GL_RGB, GLenum vType = GL_FLOAT,
+		GLint vFilterMode = GL_LINEAR, GLint vWrapMode = GL_CLAMP_TO_EDGE, bool vGenerateMipMap = GL_FALSE);
 }

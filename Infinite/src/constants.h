@@ -22,23 +22,11 @@ namespace Constant
 	};
 }
 
-namespace EChannelType
+namespace Default
 {
-	static const std::string BUFFER = "buffer";
-	static const std::string TEXTURE = "texture";
-	static const std::string CUBE_MAP = "cubeMap";
-	static const std::string KEYBOARD = "keyboard";
-	static const std::string SOUND = "sound";
-	static const std::string SOUND_CLOUD = "soundCloud";
-	static const std::string VIDEO = "video";
-}
-
-namespace EPassType
-{
-	static const std::string BUFFER = "buffer";
-	static const std::string IMAGE = "image";
-	static const std::string SOUND = "sound";
-	static const std::string CUBE_MAP = "cubeMap";
+	const GLint TEXTURE_FILTER_MODE = GL_LINEAR;
+	const GLint TEXTURE_WRAP_MODE = GL_CLAMP_TO_EDGE;
+	const bool	TEXTURE_IS_VFLIP = true;
 }
 
 #define KEYBORAD_TEX_WIDTH 512

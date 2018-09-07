@@ -3,13 +3,24 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <boost/property_tree/ptree.hpp>
+#include "common.h"
+
+struct SChannelConfig
+{
+	EChannelType type;
+	std::string value;
+	int filterMode;
+	int wrapMode;
+	bool vflip;
+};
 
 struct SPassConfig
 {
 	int passID;
-	std::string type;
+	EPassType type;
 	std::string shaderPath;
-	std::vector<std::pair<std::string, std::string>> channels;
+	std::vector<SChannelConfig> channelConfigSet;
 
 	SPassConfig() : passID(-1) {}
 
@@ -57,6 +68,13 @@ private:
 
 	void __parseGameConfig(const std::string& vConfigFileName);
 	SSceneConfig __parseSceneConfig(const std::string& vConfigFileName);
+	SPassConfig __parsePassConfig(const boost::property_tree::ptree& vConfigItem);
+	SChannelConfig __parseChannelConfig(const boost::property_tree::ptree& vConfigItem);
+
+	int __parseFilterMode(const std::string& vModeStr);
+	int __parseWrapMode(const std::string& vModeStr);
+	EChannelType __parseChannelType(const std::string& vTypeStr);
+	EPassType __parsePassType(const std::string& vTypeStr);
 
 private:
 	static CGameConfig* m_pInstance;

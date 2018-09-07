@@ -71,23 +71,20 @@ void CPassRenderer::renderPass()
 //FUNCTION:
 void CPassRenderer::__initTextures()
 {
-	for (auto& Channel : m_Config.channels)
+	for (auto& Config : m_Config.channelConfigSet)
 	{
-		auto ChannelType = Channel.first;
-		auto ChannelValue = Channel.second;
-
-		if (EChannelType::BUFFER == ChannelType) {
-			auto Index = atoi(ChannelValue.c_str());
+		if (EChannelType::BUFFER == Config.type) {
+			auto Index = atoi(Config.value.c_str());
 			auto TextureID = m_pSceneRenderer->getRenderTextureByPassID(Index);
 			_ASSERTE(TextureID > 0);
 			m_TextureSet.push_back(TextureID);
 		}
-		else if (EChannelType::TEXTURE == ChannelType) {
-			auto TextureID = util::loadTexture(ChannelValue.c_str());
+		else if (EChannelType::TEXTURE == Config.type) {
+			auto TextureID = util::loadTexture(Config.value.c_str(), Config.filterMode, Config.wrapMode, Config.vflip);
 			_ASSERTE(TextureID > 0);
 			m_TextureSet.push_back(TextureID);
 		}
-		else if (EChannelType::KEYBOARD == ChannelType) {
+		else if (EChannelType::KEYBOARD == Config.type) {
 			m_KeyboardTex = util::setupTexture2D(KEYBORAD_TEX_WIDTH, KEYBORAD_TEX_HEIGHT, GL_RED, GL_RED, GL_UNSIGNED_BYTE, GL_NEAREST);
 			_ASSERTE(m_KeyboardTex > 0);
 			m_TextureSet.push_back(m_KeyboardTex);

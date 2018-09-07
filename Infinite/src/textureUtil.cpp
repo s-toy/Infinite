@@ -72,54 +72,43 @@ GLuint util::setupCubemap(int vWidth, int vHeight, bool vGenerateMipMap)
 
 //**********************************************************************************************
 //FUNCTION:
-GLuint util::loadTexture(const char *vPath)
+GLuint util::loadTexture(const char *vPath, GLint vFilterMode, GLint vWrapMode, bool vVerticallyFlip)
 {
-	stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(vVerticallyFlip);
+
 	int Width, Height, Channels;
 	GLfloat *pData = stbi_loadf(vPath, &Width, &Height, &Channels, 0);
 
-	if (pData)
-	{
-		GLenum Format;
-		if (Channels == 1)
-			Format = GL_RED;
-		else if (Channels == 3)
-			Format = GL_RGB32F;
-		else if (Channels == 4)
-			Format = GL_RGBA32F;
-
-		GLuint TextureID;
-		glGenTextures(1, &TextureID);
-		glBindTexture(GL_TEXTURE_2D, TextureID);
-		switch (Format)
-		{
-		case GL_RED:
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, Width, Height, 0, GL_RED, GL_FLOAT, pData);
-			break;
-		case GL_RGB32F:
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Width, Height, 0, GL_RGB, GL_FLOAT, pData);
-			break;
-		case GL_RGBA32F:
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, Width, Height, 0, GL_RGBA, GL_FLOAT, pData);
-			break;
-		default:
-			break;
-		}
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		stbi_image_free(pData);
-
-		return TextureID;
-	}
-	else
-	{
+	if (!pData) {
 		std::cout << "Failed to load image." << std::endl;
 		return -1;
 	}
+
+	GLuint TextureID;
+	glGenTextures(1, &TextureID);
+	glBindTexture(GL_TEXTURE_2D, TextureID);
+
+	switch (Channels)
+	{
+	case 1:
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, Width, Height, 0, GL_RED, GL_FLOAT, pData); break;
+	case  3:
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Width, Height, 0, GL_RGB, GL_FLOAT, pData); break;
+	case 4:
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, Width, Height, 0, GL_RGBA, GL_FLOAT, pData);  break;
+	default:
+		break;
+	}
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, vWrapMode);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, vWrapMode);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, vFilterMode);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, vFilterMode);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	stbi_image_free(pData);
+
+	return TextureID;
 }
 
 //**********************************************************************************************

@@ -3,7 +3,7 @@
   "winSize": { "width": 1600, "height": 900 },
   "winPos": { "x": 100, "y": 50 },
   "fullScreen": false,
-  "entrySceneID":  2,
+  "entrySceneID":  8,
 
   "scene": [
     {
@@ -40,7 +40,7 @@
     },
     {
       "id": 8,
-      "configFile": "res\\shaders\\custom\\FindRestroom\\config.json"
+      "configFile": "res\\shaders\\custom\\TinyCloud\\config.json"
     },
     {
       "id": 9,

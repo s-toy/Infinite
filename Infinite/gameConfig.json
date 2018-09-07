@@ -41,6 +41,10 @@
     {
       "id": 8,
       "configFile": "res\\shaders\\custom\\FindRestroom\\config.json"
+    },
+    {
+      "id": 9,
+      "configFile": "res\\shaders\\custom\\DisplayTexture\\config.json"
     }
   ]
 }

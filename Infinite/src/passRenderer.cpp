@@ -56,7 +56,7 @@ void CPassRenderer::renderPass()
 	m_pQuadRenderer->draw();
 	m_pShadingTechnique->disableProgram();
 
-	for (int i = 0; i < m_TextureSet.size(); ++i) {
+	for (unsigned int i = 0; i < m_TextureSet.size(); ++i) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
@@ -85,7 +85,7 @@ void CPassRenderer::__initTextures()
 			m_TextureSet.push_back(TextureID);
 		}
 		else if (EChannelType::KEYBOARD == Config.type) {
-			m_KeyboardTex = util::setupTexture2D(KEYBORAD_TEX_WIDTH, KEYBORAD_TEX_HEIGHT, GL_RED, GL_RED, GL_UNSIGNED_BYTE, GL_NEAREST);
+			m_KeyboardTex = util::setupTexture2D(Constant::KEYBORAD_TEX_WIDTH, Constant::KEYBORAD_TEX_HEIGHT, GL_RED, GL_RED, GL_UNSIGNED_BYTE, GL_NEAREST);
 			_ASSERTE(m_KeyboardTex > 0);
 			m_TextureSet.push_back(m_KeyboardTex);
 		}
@@ -138,7 +138,7 @@ void CPassRenderer::__updateKeyboardTexture()
 {
 	if (0 == m_KeyboardTex) return;
 
-	const int Width = KEYBORAD_TEX_WIDTH, Height = KEYBORAD_TEX_HEIGHT;
+	const int Width = Constant::KEYBORAD_TEX_WIDTH, Height = Constant::KEYBORAD_TEX_HEIGHT;
 	GLubyte ImageData[Width*Height] = { 0 };
 	for (int i = 0; i < Width; ++i) {
 		if (CGameRenderer::isKeyPressed(i)) {
@@ -160,7 +160,7 @@ void CPassRenderer::__updateShaderUniforms4ImagePass()
 	m_pShadingTechnique->updateStandShaderUniform("iTimeDelta", CGameRenderer::getInstance()->getDeltaTime());
 	m_pShadingTechnique->updateStandShaderUniform("iFrame", m_pSceneRenderer->getFrameCount());
 
-	for (int i = 0; i < m_TextureSet.size(); ++i) {
+	for (unsigned int i = 0; i < m_TextureSet.size(); ++i) {
 		auto TextureID = m_TextureSet[i];
 		_ASSERTE(TextureID != 0);
 

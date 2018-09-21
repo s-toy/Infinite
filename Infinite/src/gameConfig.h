@@ -13,6 +13,7 @@ struct SChannelConfig
 	int filterMode;
 	int wrapMode;
 	bool vflip;
+	bool isMipmap;
 };
 
 struct SPassConfig

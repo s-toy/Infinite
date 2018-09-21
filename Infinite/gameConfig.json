@@ -3,7 +3,7 @@
   "winSize": { "width": 1600, "height": 900 },
   "winPos": { "x": 100, "y": 50 },
   "fullScreen": false,
-  "entrySceneID":  8,
+  "entrySceneID":  9,
 
   "scene": [
     {
@@ -44,7 +44,7 @@
     },
     {
       "id": 9,
-      "configFile": "res\\shaders\\custom\\DisplayTexture\\config.json"
+      "configFile": "res\\shaders\\custom\\MusicPirates\\config.json"
     }
   ]
 }

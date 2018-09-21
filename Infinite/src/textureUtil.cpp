@@ -72,7 +72,7 @@ GLuint util::setupCubemap(int vWidth, int vHeight, bool vGenerateMipMap)
 
 //**********************************************************************************************
 //FUNCTION:
-GLuint util::loadTexture(const char *vPath, GLint vFilterMode, GLint vWrapMode, bool vVerticallyFlip)
+GLuint util::loadTexture(const char *vPath, GLint vFilterMode, GLint vWrapMode, bool vVerticallyFlip, bool vGenerateMipMap)
 {
 	stbi_set_flip_vertically_on_load(vVerticallyFlip);
 
@@ -104,6 +104,11 @@ GLuint util::loadTexture(const char *vPath, GLint vFilterMode, GLint vWrapMode, 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, vWrapMode);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, vFilterMode);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, vFilterMode);
+	if (vGenerateMipMap == true)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	stbi_image_free(pData);

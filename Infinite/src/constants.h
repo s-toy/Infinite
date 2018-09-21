@@ -29,4 +29,5 @@ namespace Default
 	const GLint TEXTURE_FILTER_MODE = GL_LINEAR;
 	const GLint TEXTURE_WRAP_MODE = GL_CLAMP_TO_EDGE;
 	const bool	TEXTURE_IS_VFLIP = true;
+	const bool  TEXTURE_IS_MIPMAP = false;
 }

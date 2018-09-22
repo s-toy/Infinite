@@ -1,0 +1,13 @@
+{
+  "pass": [
+    {
+      "id": 0,
+      "type": "image",
+      "shaderPath": "res\\shaders\\custom\\MusicPirates\\Image.glsl",
+	  "channels": [
+		{ "type": "texture", "value": "res\\textures\\grayWhiteNoise01.png", "filterMode": "mipmap", "wrapMode": "repeat", "isMipmap": true},
+		{ "type": "texture", "value": "res\\textures\\grayWhiteNoise01.png", "filterMode": "mipmap", "wrapMode": "repeat", "isMipmap": true}
+	  ]
+    }
+  ]
+}

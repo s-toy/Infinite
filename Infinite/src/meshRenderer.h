@@ -15,5 +15,5 @@ private:
 
 private:
 	GLuint m_VAO, m_VBO;
-	float m_VerticesCount;
+	int m_VerticesCount;
 };

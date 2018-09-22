@@ -13,7 +13,7 @@ class CMeshRenderer;
 class CSceneRenderer
 {
 public:
-	virtual ~CSceneRenderer();
+	virtual ~CSceneRenderer() = default;
 
 	static CSceneRenderer* getInstance()
 	{
@@ -34,7 +34,7 @@ public:
 	int getCurrentSceneID() const { return m_CurrentSceneID; }
 
 private:
-	CSceneRenderer();
+	CSceneRenderer() = default;
 
 	void __initRenderTextures();
 	void __initRenderPasses();
@@ -48,13 +48,13 @@ private:
 	std::unordered_map<int, GLuint> m_ID2RenderTextureMap;
 	SSceneConfig m_Config;
 
-	int m_CurrentSceneID;
-	int m_FrameCount;
+	int m_CurrentSceneID = -1;
+	int m_FrameCount = 0;
 
-	clock_t m_StartTime;
-	clock_t m_CurrentTime;
+	clock_t m_StartTime = 0;
+	clock_t m_CurrentTime = 0;
 
-	CGameShadingTechnique* m_pShadingTechnique;
+	CGameShadingTechnique* m_pShadingTechnique = nullptr;
 
 	glm::ivec2 m_WinSize;
 };

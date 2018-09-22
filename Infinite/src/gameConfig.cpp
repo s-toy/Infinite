@@ -111,6 +111,7 @@ SChannelConfig CGameConfig::__parseChannelConfig(const ptree& vConfigItem)
 	ChannelConfig.filterMode = __parseFilterMode(vConfigItem.get_optional<std::string>("filterMode").get_value_or(""));
 	ChannelConfig.wrapMode = __parseWrapMode(vConfigItem.get_optional<std::string>("wrapMode").get_value_or(""));
 	ChannelConfig.vflip = vConfigItem.get_optional<bool>("vflip").get_value_or(Default::TEXTURE_IS_VFLIP);
+	ChannelConfig.isMipmap = vConfigItem.get_optional<bool>("isMipmap").get_value_or(Default::TEXTURE_IS_MIPMAP);
 
 	return ChannelConfig;
 }
@@ -124,6 +125,7 @@ int CGameConfig::__parseFilterMode(const std::string& vModeStr)
 
 	if ("linear" == vModeStr) FilterMode = GL_LINEAR;
 	else if ("nearest" == vModeStr) FilterMode = GL_NEAREST;
+	else if ("mipmap" == vModeStr) FilterMode = GL_MIPMAP;
 
 	return FilterMode;
 }

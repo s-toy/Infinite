@@ -19,6 +19,6 @@ protected:
 
 protected:
 	GLFWwindow *m_pWindow;
-	GLfloat m_DeltaTime;
-	GLfloat m_LastFrame;
+	float m_DeltaTime;
+	float m_LastFrame;
 };

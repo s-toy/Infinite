@@ -10,16 +10,6 @@
 
 CSceneRenderer* CSceneRenderer::m_pInstance = nullptr;
 
-CSceneRenderer::CSceneRenderer() : m_CurrentSceneID(-1), m_FrameCount(0), m_pShadingTechnique(nullptr)
-{
-
-}
-
-CSceneRenderer::~CSceneRenderer()
-{
-
-}
-
 //*********************************************************************************
 //FUNCTION:
 bool CSceneRenderer::init()

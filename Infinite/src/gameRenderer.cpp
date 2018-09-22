@@ -131,6 +131,6 @@ void CGameRenderer::__mouseButtonCallback(GLFWwindow* vWindow, int vButton, int 
 //FUNCTION:
 void CGameRenderer::__cursorPosCallback(GLFWwindow* vWindow, double vPosX, double vPosY)
 {
-	g_CursorPos.x = vPosX;
-	g_CursorPos.y = vPosY;
+	g_CursorPos.x = (float)vPosX;
+	g_CursorPos.y = (float)vPosY;
 }

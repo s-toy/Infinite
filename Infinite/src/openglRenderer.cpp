@@ -26,7 +26,6 @@ void COpenGLRenderer::initV(const std::string& vWindowTitle, int vWindowWidth, i
 	glfwSetWindowPos(m_pWindow, vWinPosX, vWinPosY);
 	glfwMakeContextCurrent(m_pWindow);
 	glewExperimental = GL_TRUE;
-
 	glewInit();
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }

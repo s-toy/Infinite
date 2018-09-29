@@ -24,19 +24,22 @@ private:
 	void __updateKeyboardTexture();
 	void __updateShaderUniforms4ImagePass();
 
+	void __playSound() const;
+
 	void __destroy();
 
 private:
-	SPassConfig m_Config;
-
 	std::vector<GLuint> m_TextureSet;
-	GLuint m_KeyboardTex;
-	GLuint m_RenderTex;
+	std::string m_SoundFilePath;
 
-	GLuint m_CaptureFBO;
-	GLuint m_CaptureRBO;
+	GLuint m_KeyboardTex = 0;
+	GLuint m_RenderTex = 0;
+	GLuint m_CaptureFBO = 0;
+	GLuint m_CaptureRBO = 0;
 
-	CGameShadingTechnique* m_pShadingTechnique;
-	CSceneRenderer* m_pSceneRenderer;
-	CMeshRenderer* m_pQuadRenderer;
+	CGameShadingTechnique* m_pShadingTechnique = nullptr;
+	CSceneRenderer* m_pSceneRenderer = nullptr;
+	CMeshRenderer* m_pQuadRenderer = nullptr;
+
+	SPassConfig m_Config;
 };

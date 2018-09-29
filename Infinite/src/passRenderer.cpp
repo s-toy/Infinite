@@ -1,4 +1,6 @@
 #include "passRenderer.h"
+#include <windows.h>
+#include <mmsystem.h>
 #include <boost/format.hpp>
 #include "constants.h"
 #include "common.h"
@@ -8,7 +10,7 @@
 #include "gameRenderer.h"
 #include "meshRenderer.h"
 
-CPassRenderer::CPassRenderer() : m_pShadingTechnique(nullptr), m_pSceneRenderer(nullptr), m_pQuadRenderer(nullptr), m_KeyboardTex(0), m_RenderTex(0)
+CPassRenderer::CPassRenderer()
 {
 
 }
@@ -30,6 +32,7 @@ void CPassRenderer::init(const SPassConfig& vPassConfig)
 	__initTextures();
 	__initBuffers();
 	__initShaders();
+	__playSound();
 }
 
 //*********************************************************************************
@@ -88,6 +91,9 @@ void CPassRenderer::__initTextures()
 			m_KeyboardTex = util::setupTexture2D(Constant::KEYBORAD_TEX_WIDTH, Constant::KEYBORAD_TEX_HEIGHT, GL_RED, GL_RED, GL_UNSIGNED_BYTE, GL_NEAREST);
 			_ASSERTE(m_KeyboardTex > 0);
 			m_TextureSet.push_back(m_KeyboardTex);
+		}
+		else if (EChannelType::SOUND == Config.type) {
+			m_SoundFilePath = Config.value;
 		}
 	}
 }
@@ -191,6 +197,14 @@ void CPassRenderer::__updateShaderUniforms4ImagePass()
 
 //*********************************************************************************
 //FUNCTION:
+void CPassRenderer::__playSound() const
+{
+	if (m_SoundFilePath.empty()) return;
+	PlaySound(m_SoundFilePath.c_str(), nullptr, SND_ASYNC | SND_LOOP);
+}
+
+//*********************************************************************************
+//FUNCTION:
 void CPassRenderer::__destroy()
 {
 	SAFE_DELETE(m_pQuadRenderer);
@@ -204,4 +218,6 @@ void CPassRenderer::__destroy()
 
 	glDeleteBuffers(1, &m_CaptureRBO);
 	glDeleteBuffers(1, &m_CaptureFBO);
+
+	PlaySound(nullptr, nullptr, SND_ASYNC | SND_LOOP);
 }

@@ -16,29 +16,17 @@
     <Filter Include="Source Files\Common">
       <UniqueIdentifier>{0abcafc4-f15b-42de-925f-5b23b7ca6a16}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader Files\custom">
-      <UniqueIdentifier>{226d6baa-6d06-4464-8ae6-3830efaa66b0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shader Files\core">
       <UniqueIdentifier>{f81ad23e-4899-48f7-8f7f-60ba4518e763}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{65e37aeb-658b-4fc4-8f1a-edb7adfc2c9c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader Files\custom\head">
-      <UniqueIdentifier>{359a201e-6f06-40ee-9326-5698954afd3a}</UniqueIdentifier>
+    <Filter Include="Shader Files\game">
+      <UniqueIdentifier>{0c5f071a-43bc-4578-a5a2-9543aaf2ddbf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader Files\custom\body">
-      <UniqueIdentifier>{71610492-3306-4015-88a9-859e172e2fcf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader Files\custom\Paratrooper">
-      <UniqueIdentifier>{098b5cc9-f147-48b4-a302-7af7ad2abcac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader Files\custom\Contra">
-      <UniqueIdentifier>{770d6559-0db7-428b-8671-464a23cf4c2a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader Files\custom\Pacman">
-      <UniqueIdentifier>{5ea91b4a-04d4-4bb7-a2d0-6c690a3c00a4}</UniqueIdentifier>
+    <Filter Include="Shader Files\game\head">
+      <UniqueIdentifier>{b4037b9d-5b87-49d5-b920-7c5a629a3047}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -149,41 +137,17 @@
       <Filter>Shader Files\core</Filter>
     </None>
     <None Include="gameConfig.json" />
-    <None Include="res\shaders\custom\head\headA_fs.glsl">
-      <Filter>Shader Files\custom\head</Filter>
-    </None>
-    <None Include="res\shaders\custom\head\headB_fs.glsl">
-      <Filter>Shader Files\custom\head</Filter>
-    </None>
-    <None Include="res\shaders\custom\body\colorfulHeart_fs.glsl">
-      <Filter>Shader Files\custom\body</Filter>
-    </None>
-    <None Include="res\shaders\custom\body\contrastSpeedIllusion_fs.glsl">
-      <Filter>Shader Files\custom\body</Filter>
-    </None>
-    <None Include="res\shaders\custom\body\displayPicture_fs.glsl">
-      <Filter>Shader Files\custom\body</Filter>
-    </None>
-    <None Include="res\shaders\custom\body\sky_fs.glsl">
-      <Filter>Shader Files\custom\body</Filter>
-    </None>
-    <None Include="res\shaders\custom\body\tinyCloud_fs.glsl">
-      <Filter>Shader Files\custom\body</Filter>
-    </None>
-    <None Include="res\shaders\custom\Paint\config.json">
-      <Filter>Shader Files\custom</Filter>
-    </None>
-    <None Include="res\shaders\custom\Paratrooper\config.json">
-      <Filter>Shader Files\custom\Paratrooper</Filter>
-    </None>
     <None Include="res\shaders\core\renderKeyEvent2Texture_fs.glsl">
       <Filter>Shader Files\core</Filter>
     </None>
-    <None Include="res\shaders\custom\Contra\config.json">
-      <Filter>Shader Files\custom\Contra</Filter>
+    <None Include="res\shaders\game\head\config.json">
+      <Filter>Shader Files\game\head</Filter>
     </None>
-    <None Include="res\shaders\custom\Pacman\config.json">
-      <Filter>Shader Files\custom\Pacman</Filter>
+    <None Include="res\shaders\game\head\headA_fs.glsl">
+      <Filter>Shader Files\game\head</Filter>
+    </None>
+    <None Include="res\shaders\game\head\headB_fs.glsl">
+      <Filter>Shader Files\game\head</Filter>
     </None>
   </ItemGroup>
 </Project>

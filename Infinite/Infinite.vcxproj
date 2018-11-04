@@ -59,17 +59,9 @@
     <None Include="res\shaders\core\mainImage_fs.glsl" />
     <None Include="res\shaders\core\renderKeyEvent2Texture_fs.glsl" />
     <None Include="res\shaders\core\textureCopy_fs.glsl" />
-    <None Include="res\shaders\custom\body\colorfulHeart_fs.glsl" />
-    <None Include="res\shaders\custom\body\contrastSpeedIllusion_fs.glsl" />
-    <None Include="res\shaders\custom\body\displayPicture_fs.glsl" />
-    <None Include="res\shaders\custom\body\sky_fs.glsl" />
-    <None Include="res\shaders\custom\body\tinyCloud_fs.glsl" />
-    <None Include="res\shaders\custom\Contra\config.json" />
-    <None Include="res\shaders\custom\head\headA_fs.glsl" />
-    <None Include="res\shaders\custom\head\headB_fs.glsl" />
-    <None Include="res\shaders\custom\Pacman\config.json" />
-    <None Include="res\shaders\custom\Paint\config.json" />
-    <None Include="res\shaders\custom\Paratrooper\config.json" />
+    <None Include="res\shaders\game\head\config.json" />
+    <None Include="res\shaders\game\head\headA_fs.glsl" />
+    <None Include="res\shaders\game\head\headB_fs.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -180,7 +172,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties res_4shaders_4custom_4Paint_4config_1json__JSONSchema="" />
+      <UserProperties />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

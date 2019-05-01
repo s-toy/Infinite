@@ -1,6 +1,6 @@
 ## 简介
 
- 一个仿`shadertoy`的基于`OpenGL`的`Windows`本地渲染器，兼容`shadertoy`语法规则。
+ 一个仿[`shadertoy`](www.shadertoy.com)的基于`OpenGL`的`Windows`本地渲染器，兼容`shadertoy`语法规则。
 
 目前支持的Shader Input：
 
@@ -57,4 +57,4 @@
 
 [MusicVisualization](./sproject/INFINITE/res/shaders/mini-project/touhouMusic-Flandre)
 
-![1556719211446](E:\projects\stoy\Infinite\docs\1556719211446.png)
+![1556719211446](./docs/1556719211446.png)

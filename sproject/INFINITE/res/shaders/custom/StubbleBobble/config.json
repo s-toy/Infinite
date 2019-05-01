@@ -1,0 +1,29 @@
+{
+  "pass": [
+    {
+      "id": 0,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\custom\\StubbleBobble\\BufferA.glsl",
+      "channels": [
+        { "type": "buffer", "value": "0" },
+        { "type": "keyboard", "value": "" }
+      ]
+    },
+	  {
+      "id": 1,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\custom\\StubbleBobble\\BufferB.glsl",
+      "channels": [
+        { "type": "buffer", "value": "0" }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "image",
+      "shaderPath": "res\\shaders\\custom\\StubbleBobble\\Image.glsl",
+      "channels": [
+        { "type": "buffer", "value": "1" }
+      ]
+    }
+  ]
+}

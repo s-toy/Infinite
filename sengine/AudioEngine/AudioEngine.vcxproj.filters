@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{91351fc6-d7b1-4256-9b0f-075dd3d231c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{4b6df986-7096-453e-9531-b344ecf2c35e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AudioEngineImp">
+      <UniqueIdentifier>{32e0d723-a572-445c-88fd-99774c31d70b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AudioEngineBase">
+      <UniqueIdentifier>{d48d7314-4a65-4217-98b9-1eddbcdcbaf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AudioEngineImp\Irrklang">
+      <UniqueIdentifier>{09e354cb-acf1-452e-b8b5-337c2d31d0be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AudioEngineImp\SFML">
+      <UniqueIdentifier>{bf7aafb1-26d7-45a1-8528-fbb15b284fe9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\AudioEngineCommon.h">
+      <Filter>Source Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AudioEngineExport.h">
+      <Filter>Source Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AudioEngine.h">
+      <Filter>Source Files\AudioEngineBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AudioEngineInterface.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IAudioEngineImp.h">
+      <Filter>Source Files\AudioEngineBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AudioEngineConfig.h">
+      <Filter>Source Files\AudioEngineBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IrrklangAudioPlayer.h">
+      <Filter>Source Files\AudioEngineImp\Irrklang</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FFTAudioStream.h">
+      <Filter>Source Files\AudioEngineImp\SFML</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SFMLAudioPlayer.h">
+      <Filter>Source Files\AudioEngineImp\SFML</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\AudioEngine.cpp">
+      <Filter>Source Files\AudioEngineBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AudioEngineInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AudioEngineConfig.cpp">
+      <Filter>Source Files\AudioEngineBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IrrklangAudioPlayer.cpp">
+      <Filter>Source Files\AudioEngineImp\Irrklang</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FFTAudioStream.cpp">
+      <Filter>Source Files\AudioEngineImp\SFML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SFMLAudioPlayer.cpp">
+      <Filter>Source Files\AudioEngineImp\SFML</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

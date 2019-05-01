@@ -1,0 +1,50 @@
+{
+  "winName": "Infinite",
+  "winSize": { "width": 1600, "height": 900 },
+  "winPos": { "x": 100, "y": 50 },
+  "fullScreen": false,
+  "entrySceneID":  9,
+
+  "scene": [
+    {
+      "id": 0,
+      "configFile": "res\\shaders\\custom\\Contra\\config.json"
+    },
+    {
+      "id": 1,
+      "configFile": "res\\shaders\\custom\\Mario\\config.json"
+    },
+    {
+      "id": 2,
+      "configFile": "res\\shaders\\custom\\Paratrooper\\config.json"
+    },
+    {
+      "id": 3,
+      "configFile": "res\\shaders\\custom\\Woman\\config.json"
+    },
+    {
+      "id": 4,
+      "configFile": "res\\shaders\\custom\\BabyToy\\config.json"
+    },
+    {
+      "id": 5,
+      "configFile": "res\\shaders\\custom\\Fireworks\\config.json"
+    },
+    {
+      "id": 6,
+      "configFile": "res\\shaders\\custom\\Raymarching-Primitives\\config.json"
+    },
+    {
+      "id": 7,
+      "configFile": "res\\shaders\\custom\\Paint\\config.json"
+    },
+    {
+      "id": 8,
+      "configFile": "res\\shaders\\custom\\TinyCloud\\config.json"
+    },
+    {
+      "id": 9,
+      "configFile": "res\\shaders\\custom\\MusicPirates\\config.json"
+    }
+  ]
+}

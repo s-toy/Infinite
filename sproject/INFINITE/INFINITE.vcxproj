@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\gameConfig.cpp" />
+    <ClCompile Include="src\gameRenderer.cpp" />
+    <ClCompile Include="src\gameShadingTechnique.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mathUtil.cpp" />
+    <ClCompile Include="src\meshRenderer.cpp" />
+    <ClCompile Include="src\program.cpp" />
+    <ClCompile Include="src\passRenderer.cpp" />
+    <ClCompile Include="src\sceneRenderer.cpp" />
+    <ClCompile Include="src\shadingTechnique.cpp" />
+    <ClCompile Include="src\technique.cpp" />
+    <ClCompile Include="src\textureUtil.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\common.h" />
+    <ClInclude Include="src\constants.h" />
+    <ClInclude Include="src\gameConfig.h" />
+    <ClInclude Include="src\gameRenderer.h" />
+    <ClInclude Include="src\gameShadingTechnique.h" />
+    <ClInclude Include="src\mathUtil.h" />
+    <ClInclude Include="src\meshRenderer.h" />
+    <ClInclude Include="src\program.h" />
+    <ClInclude Include="src\passRenderer.h" />
+    <ClInclude Include="src\sceneRenderer.h" />
+    <ClInclude Include="src\shadingTechnique.h" />
+    <ClInclude Include="src\technique.h" />
+    <ClInclude Include="src\textureUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Infinite.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="RenderEngine.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="res\shaders\core\drawQuad_vs.glsl" />
+    <None Include="res\shaders\core\mainImage_fs.glsl" />
+    <None Include="res\shaders\core\renderKeyEvent2Texture_fs.glsl" />
+    <None Include="res\shaders\core\textureCopy_fs.glsl" />
+    <None Include="res\shaders\game\head\config.json" />
+    <None Include="res\shaders\game\head\headA_fs.glsl" />
+    <None Include="res\shaders\game\head\headB_fs.glsl" />
+    <None Include="res\shaders\mini-project\cloud\config.json" />
+    <None Include="res\shaders\mini-project\cloud\Image.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Alice\BufferA.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Alice\BufferB.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Alice\BufferC.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Alice\config.json" />
+    <None Include="res\shaders\mini-project\touhouMusic-Alice\Image.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Flandre\BufferA.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Flandre\BufferB.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Flandre\BufferC.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Flandre\config.json" />
+    <None Include="res\shaders\mini-project\touhouMusic-Flandre\Image.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Remilia\BufferA.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Remilia\BufferB.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Remilia\BufferC.glsl" />
+    <None Include="res\shaders\mini-project\touhouMusic-Remilia\config.json" />
+    <None Include="res\shaders\mini-project\touhouMusic-Remilia\Image.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\sengine\AudioEngine\AudioEngine.vcxproj">
+      <Project>{f540d069-97e8-421f-8a0b-fa9290487d3b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\sengine\GLRenderer\GLRenderer.vcxproj">
+      <Project>{2a5dbcf2-fa2d-4125-8902-eab8fd3d1c93}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\sengine\RenderEngine\RenderEngine.vcxproj">
+      <Project>{02fd3233-75cc-4dd4-8ef2-0ae2670642a8}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{F46EF3BB-3476-4E0F-9B1F-7FFE095CD45C}</ProjectGuid>
+    <RootNamespace>Infinite</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)sengine\RenderEngine\Source;$(SolutionDir)sengine\AudioEngine\Source;$(SolutionDir)SEngine\GLRenderer\Source;$(SOIL)\include;$(BOOST);$(OPENGL)\include;$(GLM);$(ASSIMP)\include;$(HIVE_ROOT)/include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SOIL)/lib/$(PlatformTarget);$(BOOST)/$(PlatformTarget);$(OPENGL)\lib\$(PlatformTarget);$(ASSIMP)\lib\$(PlatformTarget);;$(HIVE_ROOT)/lib/$(PlatformTarget);$(IRRKLANG)/lib/$(PlatformTarget);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>hiveOO-vc141D.lib;hiveCommon-vc141D.lib;glew32d.lib;freeglutd.lib;glfw3-vc140.lib;assimp-vc140-mt.lib;irrKlang.lib;SOILd-vc141.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)sengine\RenderEngine\Source;$(SolutionDir)sengine\AudioEngine\Source;$(SolutionDir)SEngine\GLRenderer\Source;$(SOIL)\include;$(BOOST);$(OPENGL)\include;$(GLM);$(ASSIMP)\include;$(HIVE_ROOT)/include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SOIL)/lib/$(PlatformTarget);$(BOOST)/$(PlatformTarget);$(OPENGL)\lib\$(PlatformTarget);$(ASSIMP)\lib\$(PlatformTarget);;$(HIVE_ROOT)/lib/$(PlatformTarget);$(IRRKLANG)/lib/$(PlatformTarget);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>hiveOO-vc141D.lib;hiveCommon-vc141D.lib;glew32d.lib;freeglutd.lib;glfw3-vc140.lib;assimp-vc140-mt.lib;irrKlang.lib;SOILd-vc141.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)sengine\RenderEngine\Source;$(SolutionDir)sengine\AudioEngine\Source;$(SolutionDir)SEngine\GLRenderer\Source;$(SOIL)\include;$(BOOST);$(OPENGL)\include;$(GLM);$(ASSIMP)\include;$(HIVE_ROOT)/include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SOIL)/lib/$(PlatformTarget);$(BOOST)/$(PlatformTarget);$(OPENGL)\lib\$(PlatformTarget);$(ASSIMP)\lib\$(PlatformTarget);;$(HIVE_ROOT)/lib/$(PlatformTarget);$(IRRKLANG)/lib/$(PlatformTarget);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>hiveOO-vc141.lib;hiveCommon-vc141.lib;glew32.lib;freeglut.lib;glfw3-vc140.lib;assimp-vc140-mt.lib;irrKlang.lib;SOIL-vc141.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)sengine\RenderEngine\Source;$(SolutionDir)sengine\AudioEngine\Source;$(SolutionDir)SEngine\GLRenderer\Source;$(SOIL)\include;$(BOOST);$(OPENGL)\include;$(GLM);$(ASSIMP)\include;$(HIVE_ROOT)/include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SOIL)/lib/$(PlatformTarget);$(BOOST)/$(PlatformTarget);$(OPENGL)\lib\$(PlatformTarget);$(ASSIMP)\lib\$(PlatformTarget);;$(HIVE_ROOT)/lib/$(PlatformTarget);$(IRRKLANG)/lib/$(PlatformTarget);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>hiveOO-vc141.lib;hiveCommon-vc141.lib;glew32.lib;freeglut.lib;glfw3-vc140.lib;assimp-vc140-mt.lib;irrKlang.lib;SOIL-vc141.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

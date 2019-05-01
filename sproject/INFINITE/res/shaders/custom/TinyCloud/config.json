@@ -1,0 +1,12 @@
+{
+  "pass": [
+    {
+      "id": 0,
+      "type": "image",
+      "shaderPath": "res\\shaders\\custom\\TinyCloud\\Image.glsl",
+	  "channels": [
+		{ "type": "texture", "value": "res\\textures\\grayWhiteNoise01.bmp", "filterMode": "linear", "wrapMode": "repeat", "format": "r"}
+	  ]
+    }
+  ]
+}

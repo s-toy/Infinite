@@ -1,0 +1,40 @@
+{
+  "common": "res\\shaders\\custom\\Paratrooper\\Common.glsl",
+	
+  "pass": [
+    {
+      "id": 0,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\custom\\Paratrooper\\BufferA.glsl",
+      "channels": [
+        { "type": "keyboard", "value": "" },
+        { "type": "buffer", "value": "0" }		
+      ]
+    },
+	{
+      "id": 1,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\custom\\Paratrooper\\BufferB.glsl",
+      "channels": [
+        { "type": "buffer", "value": "0" },
+        { "type": "buffer", "value": "2" }		
+      ]
+    },
+	{
+      "id": 2,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\custom\\Paratrooper\\BufferC.glsl",
+      "channels": [
+        { "type": "buffer", "value": "2" }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "image",
+      "shaderPath": "res\\shaders\\custom\\Paratrooper\\Image.glsl",
+      "channels": [
+        { "type": "buffer", "value": "1" }
+      ]
+    }
+  ]
+}

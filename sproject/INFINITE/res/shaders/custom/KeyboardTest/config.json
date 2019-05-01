@@ -1,0 +1,12 @@
+{
+  "pass": [
+    {
+      "id": 0,
+      "type": "image",
+      "shaderPath": "res\\shaders\\custom\\KeyboardTest\\Image.glsl",
+	  "channels": [
+		{ "type": "keyboard", "value": ""}
+	  ]
+    }
+  ]
+}

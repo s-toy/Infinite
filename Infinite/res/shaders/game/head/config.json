@@ -1,9 +1,0 @@
-{
-  "pass": [
-    {
-      "id": 0,
-      "type": "image",
-      "shaderPath": "res\\shaders\\game\\head\\headA_fs.glsl"
-    }
-  ]
-}

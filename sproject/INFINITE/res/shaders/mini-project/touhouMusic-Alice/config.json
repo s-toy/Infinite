@@ -1,0 +1,67 @@
+{
+  "pass": [
+    {
+      "id": 0,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\mini-project\\touhouMusic-Alice\\BufferA.glsl",
+      "channels": [
+        {
+          "type": "texture",
+          "value": "res\\textures\\alice01.jpg"
+        },
+        {
+          "type": "texture",
+          "value": "res\\textures\\alice02.jpg"
+        },
+        {
+          "type": "texture",
+          "value": "res\\textures\\alice03.jpg"
+        },
+        {
+          "type": "texture",
+          "value": "res\\textures\\alice04.jpg"
+        }
+      ]
+    },
+
+    {
+      "id": 1,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\mini-project\\touhouMusic-Alice\\BufferB.glsl",
+      "channels": [
+        {
+          "type": "buffer",
+          "value": "0"
+        }
+      ]
+    },
+
+    {
+      "id": 2,
+      "type": "buffer",
+      "shaderPath": "res\\shaders\\mini-project\\touhouMusic-Alice\\BufferC.glsl",
+      "channels": [
+        {
+          "type": "sound",
+          "value": "res\\sounds\\alice02.wav"
+        }
+      ]
+    },
+
+    {
+      "id": 3,
+      "type": "image",
+      "shaderPath": "res\\shaders\\mini-project\\touhouMusic-Alice\\Image.glsl",
+      "channels": [
+        {
+          "type": "buffer",
+          "value": "1"
+        },
+        {
+          "type": "buffer",
+          "value": "2"
+        }
+      ]
+    }
+  ]
+}

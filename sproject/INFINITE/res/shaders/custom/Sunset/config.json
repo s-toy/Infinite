@@ -1,0 +1,13 @@
+{
+  "pass": [
+    {
+      "id": 0,
+      "type": "image",
+      "shaderPath": "res\\shaders\\custom\\Sunset\\Image.glsl",
+	  "channels": [
+		{ "type": "texture", "value": "res\\textures\\grayWhiteNoise01.png", "filterMode": "linear", "wrapMode": "repeat"},
+		{ "type": "texture", "value": "res\\textures\\grayWhiteNoise01.png", "filterMode": "linear", "wrapMode": "repeat"}
+	  ]
+    }
+  ]
+}

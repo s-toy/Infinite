@@ -1,6 +1,6 @@
 ## 简介
 
- 一个仿[`shadertoy`](www.shadertoy.com)的基于`OpenGL`的`Windows`本地渲染器，兼容`shadertoy`语法规则。
+ 一个仿[`shadertoy`](http://www.shadertoy.com)的基于`OpenGL`的`Windows`本地渲染器，兼容`shadertoy`语法规则。
 
 目前支持的Shader Input：
 

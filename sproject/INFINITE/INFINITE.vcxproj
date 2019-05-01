@@ -85,6 +85,9 @@
     <ProjectReference Include="..\..\sengine\AudioEngine\AudioEngine.vcxproj">
       <Project>{f540d069-97e8-421f-8a0b-fa9290487d3b}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\sengine\Common\Common.vcxproj">
+      <Project>{14c09e01-7952-4808-a3f6-649b3db19171}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\sengine\GLRenderer\GLRenderer.vcxproj">
       <Project>{2a5dbcf2-fa2d-4125-8902-eab8fd3d1c93}</Project>
     </ProjectReference>
